@@ -192,8 +192,8 @@ const STATIC_FILES = {
     ]
 };
 
-// Статическое фото для раздела "Обо мне"
-const STATIC_ABOUT_PHOTO = '/images/main.jpg';
+// Статическое фото для раздела "Обо мне" — путь без ведущего слеша
+const STATIC_ABOUT_PHOTO = 'images/main.jpg';
 
 // ============================================
 // IndexedDB
@@ -344,7 +344,8 @@ async function renderGalleryItems() {
             const div = document.createElement('div');
             div.className = 'gallery-item' + (file.wide ? ' gallery-item-wide' : '');
             const img = document.createElement('img');
-            img.src = `/images/${file.name}`;
+            // Путь без ведущего слеша
+            img.src = `images/${file.name}`;
             img.alt = `Работа ${index + 1}`;
             img.style.width = '100%';
             img.style.height = '100%';
@@ -580,7 +581,8 @@ async function renderMoreWorksItems() {
             div.className = 'moreworks-item';
             const alt = translations[currentLang]['work_' + (idx + 1)] || ('Работа ' + (idx + 1));
             const img = document.createElement('img');
-            img.src = `/images/${file.name}`;
+            // Путь без ведущего слеша
+            img.src = `images/${file.name}`;
             img.alt = alt;
             img.loading = 'lazy';
             img.style.width = '100%';
