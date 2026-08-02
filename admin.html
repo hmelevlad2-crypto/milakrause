@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель — Людмила Краусе</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal-50: #f0fdfa; --teal-100: #ccfbf1; --teal-200: #99f6e4;
+            --teal-300: #5eead4; --teal-400: #2dd4bf; --teal-500: #14b8a6;
+            --teal-600: #0d9488; --teal-700: #0f766e; --teal-800: #115e59;
+            --coral: #f97066; --rose: #fb7185;
+            --purple: #a78bfa; --indigo: #818cf8;
+            --gold: #f59e0b; --amber: #fbbf24;
+            --slate-50: #f8fafc; --slate-100: #f1f5f9; --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1; --slate-400: #94a3b8; --slate-500: #64748b;
+            --slate-600: #475569; --slate-700: #334155; --slate-800: #1e293b; --slate-900: #0f172a;
+            --white: #ffffff;
+            --r-sm: 8px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px; --r-full: 9999px;
+            --t: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-sm: 0 2px 8px rgba(15,23,42,0.06);
+            --shadow-md: 0 4px 20px rgba(15,23,42,0.08);
+            --shadow-lg: 0 12px 40px rgba(15,23,42,0.12);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { font-size: 15px; scroll-behavior: smooth; }
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* Login */
+        .login-wrap {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 20px;
+        }
+        .login-card {
+            background: var(--white); border-radius: var(--r-xl);
+            padding: 40px 32px; width: 100%; max-width: 420px;
+            box-shadow: var(--shadow-lg); text-align: center;
+            border: 1px solid var(--slate-100);
+        }
+        .login-card h1 { font-size: 1.3rem; font-weight: 800; color: var(--slate-900); margin-bottom: 8px; }
+        .login-card p { font-size: 0.9rem; color: var(--slate-500); margin-bottom: 32px; }
+        .login-input {
+            width: 100%; padding: 12px 16px; font-family: 'Montserrat', sans-serif;
+            font-size: 1rem; font-weight: 600; color: var(--slate-800);
+            background: var(--slate-50); border: 2px solid var(--slate-200);
+            border-radius: var(--r-md); outline: none; transition: var(--t);
+            margin-bottom: 16px; text-align: center; letter-spacing: 0.05em;
+        }
+        .login-input:focus { border-color: var(--teal-400); background: var(--white); }
+        .login-btn {
+            width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem; font-weight: 700; color: var(--white);
+            background: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+            border: none; border-radius: var(--r-full); cursor: pointer;
+            transition: var(--t); box-shadow: 0 4px 16px rgba(13,148,136,0.3);
+        }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13,148,136,0.4); }
+        .login-error {
+            color: var(--coral); font-size: 0.85rem; font-weight: 600;
+            margin-top: 12px; opacity: 0; transition: var(--t);
+        }
+        .login-error.show { opacity: 1; }
+
+        .dashboard { display: none; }
+        .dashboard.open { display: block; }
+
+        /* Header */
+        .admin-header-bar {
+            background: linear-gradient(135deg, var(--teal-700), var(--teal-800));
+            color: var(--white); padding: 16px 0;
+            box-shadow: 0 4px 20px rgba(13,148,136,0.25);
+        }
+        .admin-header-inner {
+            max-width: 1200px; margin: 0 auto; padding: 0 28px;
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .admin-header-inner h2 { font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+        .admin-header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .admin-header-actions a, .admin-header-actions button {
+            font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600;
+            color: var(--white); text-decoration: none; padding: 6px 14px;
+            border-radius: var(--r-full); border: 1px solid rgba(255,255,255,0.25);
+            background: rgba(255,255,255,0.1); cursor: pointer; transition: var(--t);
+        }
+        .admin-header-actions a:hover, .admin-header-actions button:hover {
+            background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4);
+        }
+
+        .admin-container { max-width: 1200px; margin: 0 auto; padding: 24px 20px; }
+
+        /* Stats */
+        .admin-stats {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px; margin-bottom: 28px;
+        }
+        .admin-stat {
+            background: var(--white); border-radius: var(--r-lg);
+            padding: 16px; border: 1px solid var(--slate-100);
+            box-shadow: var(--shadow-sm); text-align: center;
+            transition: var(--t);
+        }
+        .admin-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .admin-stat-number {
+            font-size: 1.5rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            line-height: 1.2;
+        }
+        .admin-stat-label { font-size: 0.7rem; color: var(--slate-500); font-weight: 600; margin-top: 4px; }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
+            background: var(--white); padding: 8px; border-radius: var(--r-lg);
+            border: 1px solid var(--slate-100);
+        }
+        .category-tab {
+            padding: 8px 18px; border: none; border-radius: var(--r-full);
+            font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700;
+            color: var(--slate-500); background: transparent; cursor: pointer;
+            transition: var(--t); display: flex; align-items: center; gap: 8px;
+        }
+        .category-tab:hover { background: var(--slate-50); color: var(--slate-700); }
+        .category-tab.active {
+            background: var(--teal-50); color: var(--teal-700);
+            box-shadow: 0 2px 8px rgba(13,148,136,0.15);
+        }
+        .category-tab .badge-count {
+            background: var(--slate-200); color: var(--slate-600);
+            font-size: 0.65rem; padding: 2px 10px; border-radius: var(--r-full);
+            font-weight: 700;
+        }
+        .category-tab.active .badge-count {
+            background: var(--teal-200); color: var(--teal-700);
+        }
+        .category-tab-icon { font-size: 1.1rem; }
+
+        /* Sections */
+        .admin-section-card {
+            background: var(--white); border-radius: var(--r-xl);
+            border: 1px solid var(--slate-100); padding: 22px;
+            margin-bottom: 24px; box-shadow: var(--shadow-sm);
+        }
+        .admin-section-card h3 {
+            font-size: 1rem; font-weight: 700; color: var(--slate-900);
+            margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+        }
+
+        .admin-upload-row {
+            display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+            margin-bottom: 12px;
+        }
+        .admin-btn {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 6px 14px; font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem; font-weight: 700; border: none;
+            border-radius: var(--r-full); cursor: pointer; transition: var(--t);
+        }
+        .admin-btn-primary {
+            background: linear-gradient(135deg, var(--teal-500), var(--teal-700));
+            color: var(--white); box-shadow: 0 4px 16px rgba(13,148,136,0.25);
+        }
+        .admin-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(13,148,136,0.35); }
+        .admin-btn-danger {
+            background: linear-gradient(135deg, var(--coral), #e85d50);
+            color: var(--white); box-shadow: 0 4px 16px rgba(249,112,102,0.25);
+        }
+        .admin-btn-danger:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(249,112,102,0.35); }
+        .admin-btn-secondary { background: var(--slate-100); color: var(--slate-700); }
+        .admin-btn-secondary:hover { background: var(--slate-200); }
+        .admin-btn-sm { padding: 6px 12px; font-size: 0.7rem; }
+
+        .url-row {
+            display: flex; gap: 10px; margin-top: 8px; flex-wrap: wrap; align-items: center;
+        }
+        .url-row input {
+            flex: 1; min-width: 200px; padding: 8px 12px;
+            font-family: 'Montserrat', sans-serif; font-size: 0.85rem;
+            border: 2px solid var(--slate-200); border-radius: var(--r-md);
+            outline: none; transition: var(--t); background: var(--slate-50);
+            color: var(--slate-800); font-weight: 500;
+        }
+        .url-row input:focus { border-color: var(--teal-400); background: var(--white); }
+        .url-status {
+            font-size: 0.78rem; font-weight: 600; margin-top: 6px; min-height: 20px;
+        }
+        .url-status.ok { color: var(--teal-600); }
+        .url-status.err { color: var(--coral); }
+        .url-tip {
+            font-size: 0.75rem; color: var(--slate-500); margin-top: 4px; line-height: 1.5;
+            background: var(--slate-50); padding: 8px 12px; border-radius: var(--r-sm);
+            border-left: 3px solid var(--teal-400);
+        }
+        .url-tip code {
+            background: var(--slate-200); padding: 1px 6px; border-radius: 4px;
+            font-size: 0.7rem; font-family: monospace;
+        }
+
+        /* Gallery Grid */
+        .gallery-grid-admin {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px; margin-top: 16px; min-height: 80px;
+        }
+        .gallery-grid-admin.drag-over {
+            background: var(--teal-50); border-radius: var(--r-md);
+            border: 2px dashed var(--teal-300);
+        }
+        .gallery-item-admin {
+            position: relative; border-radius: var(--r-md); overflow: hidden;
+            background: var(--slate-100); aspect-ratio: 1; border: 2px solid var(--slate-200);
+            transition: var(--t); cursor: grab; user-select: none;
+        }
+        .gallery-item-admin:hover { border-color: var(--teal-300); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .gallery-item-admin.dragging { opacity: 0.5; transform: scale(0.95); }
+        .gallery-item-admin.drag-over { border-color: var(--teal-500); box-shadow: 0 0 0 3px var(--teal-200); }
+        .gallery-item-admin img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gallery-item-admin .drag-handle {
+            position: absolute; top: 6px; left: 6px;
+            background: rgba(0,0,0,0.5); color: #fff;
+            padding: 3px 6px; border-radius: var(--r-sm);
+            font-size: 0.6rem; font-weight: 700; cursor: grab;
+            backdrop-filter: blur(4px); opacity: 0;
+            transition: var(--t); letter-spacing: 0.05em;
+        }
+        .gallery-item-admin:hover .drag-handle { opacity: 1; }
+        .gallery-item-admin .item-overlay {
+            position: absolute; inset: 0; background: rgba(0,0,0,0.4);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 6px; opacity: 0; transition: var(--t); backdrop-filter: blur(2px);
+        }
+        .gallery-item-admin:hover .item-overlay { opacity: 1; }
+        .gallery-item-admin .item-overlay .item-num {
+            font-size: 0.65rem; font-weight: 700; color: #fff;
+            background: rgba(0,0,0,0.5); padding: 2px 10px; border-radius: var(--r-full);
+        }
+        .gallery-item-admin .item-overlay .btn-group {
+            display: flex; gap: 6px; flex-wrap: wrap; justify-content: center;
+        }
+        .gallery-item-admin .item-overlay button {
+            padding: 4px 10px; font-size: 0.65rem; font-weight: 700;
+            border: none; border-radius: var(--r-sm); cursor: pointer;
+            transition: var(--t);
+        }
+        .gallery-item-admin .item-overlay .btn-replace {
+            background: var(--gold); color: #fff;
+        }
+        .gallery-item-admin .item-overlay .btn-replace:hover { background: #d97706; transform: scale(1.05); }
+        .gallery-item-admin .item-overlay .btn-delete {
+            background: var(--coral); color: #fff;
+        }
+        .gallery-item-admin .item-overlay .btn-delete:hover { background: #e85d50; transform: scale(1.05); }
+        .gallery-item-admin .item-wide-badge {
+            position: absolute; bottom: 6px; right: 6px;
+            background: rgba(13,148,136,0.8); color: #fff;
+            font-size: 0.55rem; font-weight: 700; padding: 2px 8px;
+            border-radius: var(--r-full); backdrop-filter: blur(4px);
+        }
+        .admin-empty-msg {
+            grid-column: 1 / -1; text-align: center; padding: 40px;
+            color: var(--slate-400); font-size: 0.85rem; font-weight: 500;
+        }
+
+        /* About photo */
+        .about-photo-preview {
+            max-width: 160px; border-radius: var(--r-lg); overflow: hidden;
+            border: 2px solid var(--slate-100); margin-top: 12px;
+        }
+        .about-photo-preview img { width: 100%; height: auto; display: block; }
+        .about-photo-preview-empty {
+            padding: 30px; text-align: center; color: var(--slate-400);
+            font-size: 0.8rem; font-weight: 600;
+        }
+
+        /* Dark theme */
+        body.dark-theme { background: #3C3C3C; color: #f0f0f0; }
+        body.dark-theme .login-card { background: #4a4a4a; border-color: rgba(255,255,255,0.08); }
+        body.dark-theme .login-card h1 { color: #fff; }
+        body.dark-theme .login-card p { color: rgba(255,255,255,0.5); }
+        body.dark-theme .login-input { background: #3C3C3C; border-color: rgba(255,255,255,0.15); color: #f0f0f0; }
+        body.dark-theme .login-input:focus { border-color: var(--teal-400); background: #4a4a4a; }
+        body.dark-theme .login-error { color: #ff8a80; }
+        body.dark-theme .admin-section-card { background: #4a4a4a; border-color: rgba(255,255,255,0.08); }
+        body.dark-theme .admin-section-card h3 { color: #fff; }
+        body.dark-theme .admin-stat { background: #4a4a4a; border-color: rgba(255,255,255,0.08); }
+        body.dark-theme .admin-stat-label { color: rgba(255,255,255,0.5); }
+        body.dark-theme .category-tabs { background: #4a4a4a; border-color: rgba(255,255,255,0.08); }
+        body.dark-theme .category-tab { color: rgba(255,255,255,0.6); }
+        body.dark-theme .category-tab:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        body.dark-theme .category-tab.active { background: rgba(20,184,166,0.15); color: var(--teal-300); }
+        body.dark-theme .category-tab .badge-count { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+        body.dark-theme .category-tab.active .badge-count { background: rgba(20,184,166,0.2); color: var(--teal-300); }
+        body.dark-theme .gallery-item-admin { background: #3C3C3C; border-color: rgba(255,255,255,0.1); }
+        body.dark-theme .gallery-item-admin:hover { border-color: var(--teal-400); }
+        body.dark-theme .admin-btn-secondary { background: #525252; color: #f0f0f0; }
+        body.dark-theme .admin-btn-secondary:hover { background: #5a5a5a; }
+        body.dark-theme .url-row input { background: #3C3C3C; border-color: rgba(255,255,255,0.15); color: #f0f0f0; }
+        body.dark-theme .url-row input:focus { border-color: var(--teal-400); background: #4a4a4a; }
+        body.dark-theme .url-tip { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.6); border-left-color: var(--teal-400); }
+        body.dark-theme .url-tip code { background: rgba(255,255,255,0.1); color: #fff; }
+        body.dark-theme .admin-empty-msg { color: rgba(255,255,255,0.4); }
+        body.dark-theme .about-photo-preview { border-color: rgba(255,255,255,0.1); }
+        body.dark-theme .about-photo-preview-empty { color: rgba(255,255,255,0.3); }
+
+        .admin-theme-toggle {
+            display: flex; align-items: center; justify-content: center;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; cursor: pointer; transition: var(--t);
+            position: relative; overflow: hidden;
+        }
+        .admin-theme-toggle:hover { background: rgba(255,255,255,0.2); transform: rotate(15deg); }
+        .admin-theme-toggle .sun-icon, .admin-theme-toggle .moon-icon { position: absolute; transition: var(--t); }
+        .admin-theme-toggle .sun-icon { opacity: 1; transform: scale(1); }
+        .admin-theme-toggle .moon-icon { opacity: 0; transform: scale(0.5); }
+        body.dark-theme .admin-theme-toggle .sun-icon { opacity: 0; transform: scale(0.5); }
+        body.dark-theme .admin-theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
+
+        @media (max-width: 640px) {
+            .login-card { padding: 28px 20px; }
+            .admin-header-inner { flex-direction: column; text-align: center; }
+            .admin-container { padding: 16px; }
+            .admin-section-card { padding: 18px; }
+            .gallery-grid-admin { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .url-row { flex-direction: column; align-items: stretch; }
+            .category-tabs { gap: 4px; }
+            .category-tab { padding: 8px 14px; font-size: 0.75rem; }
+            .admin-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrap" id="loginWrap">
+        <div class="login-card">
+            <h1>Админ-панель</h1>
+            <p>Людмила Краусе — управление контентом</p>
+            <input type="password" class="login-input" id="loginPass" placeholder="Введите пароль">
+            <button type="button" class="login-btn" id="loginBtn">Войти</button>
+            <div class="login-error" id="loginError">Неверный пароль</div>
+        </div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <div class="admin-header-bar">
+            <div class="admin-header-inner">
+                <h2>⚙️ Админ-панель</h2>
+                <div class="admin-header-actions">
+                    <a href="index.html">← На сайт</a>
+                    <button type="button" class="admin-theme-toggle" id="adminThemeToggle">
+                        <svg class="sun-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                        <svg class="moon-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    </button>
+                    <button type="button" id="logoutBtn">Выйти</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-container">
+            <!-- Stats -->
+            <div class="admin-stats">
+                <div class="admin-stat">
+                    <div class="admin-stat-number" id="statPersonal">0</div>
+                    <div class="admin-stat-label">Личная галерея</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-number" id="statStudents">0</div>
+                    <div class="admin-stat-label">Ученики</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-number" id="statNeuro">0</div>
+                    <div class="admin-stat-label">Нейрографика</div>
+                </div>
+                <div class="admin-stat">
+                    <div class="admin-stat-number" id="statAbout">—</div>
+                    <div class="admin-stat-label">Фото художника</div>
+                </div>
+            </div>
+
+            <!-- About Photo -->
+            <div class="admin-section-card">
+                <h3>📸 Фото художника (раздел «Обо мне»)</h3>
+                <div class="url-row">
+                    <input type="text" id="aboutUrl" placeholder="Ссылка с ImgBB (Direct link) — https://i.ibb.co/...">
+                    <button type="button" class="admin-btn admin-btn-primary" id="aboutUrlBtn">Добавить</button>
+                    <button type="button" class="admin-btn admin-btn-danger" id="aboutDeleteBtn">Удалить</button>
+                </div>
+                <p class="url-tip">📌 Загрузите на <strong>imgbb.com</strong>, скопируйте <strong>«Direct link»</strong> (вида <code>https://i.ibb.co/xxx/photo.jpg</code>) и вставьте выше.</p>
+                <div class="url-status" id="aboutUrlStatus"></div>
+                <div class="about-photo-preview" id="aboutPreview">
+                    <div class="about-photo-preview-empty">Фото не загружено</div>
+                </div>
+            </div>
+
+            <!-- Gallery Categories -->
+            <div class="admin-section-card">
+                <h3>🖼️ Галереи</h3>
+                
+                <div class="category-tabs" id="categoryTabs">
+                    <button class="category-tab active" data-category="personal">
+                        <span class="category-tab-icon">🎨</span> Личная
+                        <span class="badge-count" id="badgePersonal">0</span>
+                    </button>
+                    <button class="category-tab" data-category="students">
+                        <span class="category-tab-icon">👨‍🎓</span> Ученики
+                        <span class="badge-count" id="badgeStudents">0</span>
+                    </button>
+                    <button class="category-tab" data-category="neuro">
+                        <span class="category-tab-icon">✏️</span> Нейрографика
+                        <span class="badge-count" id="badgeNeuro">0</span>
+                    </button>
+                </div>
+
+                <!-- Add photo row -->
+                <div class="url-row">
+                    <input type="text" id="galleryUrl" placeholder="Ссылка с ImgBB (Direct link) — https://i.ibb.co/...">
+                    <label style="display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:600;color:var(--slate-600);cursor:pointer;">
+                        <input type="checkbox" id="galleryWide"> Широкое (2 колонки)
+                    </label>
+                    <button type="button" class="admin-btn admin-btn-primary" id="galleryUrlBtn">➕ Добавить</button>
+                </div>
+                <p class="url-tip">📌 Загрузите на <strong>imgbb.com</strong>, скопируйте <strong>«Direct link»</strong> (вида <code>https://i.ibb.co/xxx/photo.jpg</code>) и вставьте выше. Фото можно <strong>перетаскивать</strong> для изменения порядка.</p>
+                <div class="url-status" id="galleryUrlStatus"></div>
+
+                <div class="gallery-grid-admin" id="galleryGridAdmin">
+                    <div class="admin-empty-msg">Нет фото в этой категории</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PASSWORD = '123123';
+        const DB_NAME = 'MilaKrauseDB';
+        const DB_VERSION = 2;
+        let db = null;
+        let currentCategory = 'personal';
+        let dragData = null;
+
+        // ============================================
+        // IndexedDB
+        // ============================================
+        function openDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => { db = request.result; resolve(db); };
+                request.onupgradeneeded = (e) => {
+                    const database = e.target.result;
+                    if (!database.objectStoreNames.contains('photos')) {
+                        database.createObjectStore('photos');
+                    }
+                };
+            });
+        }
+
+        function dbGet(key) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('photos', 'readonly');
+                const store = tx.objectStore('photos');
+                const req = store.get(key);
+                req.onsuccess = () => resolve(req.result);
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function dbSet(key, value) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('photos', 'readwrite');
+                const store = tx.objectStore('photos');
+                const req = store.put(value, key);
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        function dbDelete(key) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('photos', 'readwrite');
+                const store = tx.objectStore('photos');
+                const req = store.delete(key);
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+        }
+
+        async function getGallery(category) {
+            const key = 'gallery_' + category;
+            const data = await dbGet(key);
+            return Array.isArray(data) ? data : [];
+        }
+
+        async function setGallery(category, items) {
+            const key = 'gallery_' + category;
+            await dbSet(key, items);
+        }
+
+        async function getAboutPhoto() {
+            return await dbGet('about_photo') || null;
+        }
+
+        async function setAboutPhoto(data) {
+            await dbSet('about_photo', data);
+        }
+
+        async function deleteAboutPhoto() {
+            await dbDelete('about_photo');
+        }
+
+        function checkImageUrl(url) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = () => resolve(true);
+                img.onerror = () => {
+                    if (url.includes('imgur.com')) {
+                        reject(new Error('Imgur блокирует вставку. Используйте imgbb.com'));
+                    } else {
+                        reject(new Error('Фото не загружается. Проверьте ссылку (нужен Direct link с imgbb.com)'));
+                    }
+                };
+                img.src = url;
+            });
+        }
+
+        function setUrlStatus(elId, msg, isError) {
+            const el = document.getElementById(elId);
+            if (!el) return;
+            el.textContent = msg;
+            el.className = 'url-status ' + (isError ? 'err' : 'ok');
+            if (!msg) el.className = 'url-status';
+        }
+
+        // ============================================
+        // Theme
+        // ============================================
+        function initAdminTheme() {
+            const saved = localStorage.getItem('theme');
+            if (saved === 'dark') document.body.classList.add('dark-theme');
+        }
+        function toggleAdminTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+        initAdminTheme();
+        document.getElementById('adminThemeToggle').addEventListener('click', toggleAdminTheme);
+
+        // ============================================
+        // Auth
+        // ============================================
+        const loginWrap = document.getElementById('loginWrap');
+        const dashboard = document.getElementById('dashboard');
+        const loginPass = document.getElementById('loginPass');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        function showLoginError(msg) {
+            loginError.textContent = msg;
+            loginError.classList.add('show');
+            setTimeout(() => loginError.classList.remove('show'), 4000);
+        }
+
+        async function checkAuth() {
+            try {
+                if (sessionStorage.getItem('admin_auth') === 'ok') {
+                    loginWrap.style.display = 'none';
+                    dashboard.classList.add('open');
+                    try {
+                        await initDashboard();
+                    } catch (e) {
+                        showLoginError('Ошибка загрузки данных: ' + e.message);
+                    }
+                }
+            } catch (e) {
+                showLoginError('Ошибка доступа к сессии: ' + e.message);
+            }
+        }
+
+        async function doLogin() {
+            try {
+                loginError.classList.remove('show');
+                const val = loginPass.value.trim();
+                if (!val) { showLoginError('Введите пароль'); loginPass.focus(); return; }
+                if (val !== PASSWORD) { showLoginError('Неверный пароль'); loginPass.value = ''; loginPass.focus(); return; }
+                sessionStorage.setItem('admin_auth', 'ok');
+                localStorage.setItem('mila_last_login', new Date().toISOString());
+                loginWrap.style.display = 'none';
+                dashboard.classList.add('open');
+                await initDashboard();
+            } catch (e) {
+                showLoginError('Системная ошибка: ' + e.message);
+            }
+        }
+
+        loginBtn.addEventListener('click', doLogin);
+        loginPass.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+        logoutBtn.addEventListener('click', () => { sessionStorage.removeItem('admin_auth'); location.reload(); });
+
+        // ============================================
+        // Dashboard
+        // ============================================
+        async function initDashboard() {
+            await openDB();
+            await renderAboutPreview();
+            await renderGallery(currentCategory);
+            await updateStats();
+            setupTabs();
+            setupDragAndDrop();
+        }
+
+        async function updateStats() {
+            const personal = await getGallery('personal');
+            const students = await getGallery('students');
+            const neuro = await getGallery('neuro');
+            const about = await getAboutPhoto();
+
+            document.getElementById('statPersonal').textContent = personal.length;
+            document.getElementById('statStudents').textContent = students.length;
+            document.getElementById('statNeuro').textContent = neuro.length;
+            document.getElementById('statAbout').textContent = about && about.data ? '✓' : '—';
+
+            document.getElementById('badgePersonal').textContent = personal.length;
+            document.getElementById('badgeStudents').textContent = students.length;
+            document.getElementById('badgeNeuro').textContent = neuro.length;
+        }
+
+        // ============================================
+        // Tabs
+        // ============================================
+        function setupTabs() {
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.addEventListener('click', async () => {
+                    document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentCategory = tab.dataset.category;
+                    await renderGallery(currentCategory);
+                });
+            });
+        }
+
+        // ============================================
+        // About Photo
+        // ============================================
+        async function renderAboutPreview() {
+            const preview = document.getElementById('aboutPreview');
+            const photo = await getAboutPhoto();
+            if (photo && photo.data) {
+                preview.innerHTML = '<img src="' + photo.data + '" alt="Фото художника" onerror="this.parentElement.innerHTML=\'<div class=\\'about-photo-preview-empty\\'>Ошибка загрузки</div>\';">';
+            } else {
+                preview.innerHTML = '<div class="about-photo-preview-empty">Фото не загружено</div>';
+            }
+        }
+
+        document.getElementById('aboutUrlBtn').addEventListener('click', async () => {
+            const url = document.getElementById('aboutUrl').value.trim();
+            if (!url) { setUrlStatus('aboutUrlStatus', 'Введите ссылку', true); return; }
+            setUrlStatus('aboutUrlStatus', '⏳ Проверка...', false);
+            try {
+                await checkImageUrl(url);
+                await setAboutPhoto({ data: url, type: 'url' });
+                localStorage.setItem('mila_last_about_update', new Date().toISOString());
+                document.getElementById('aboutUrl').value = '';
+                setUrlStatus('aboutUrlStatus', '✅ Фото добавлено!', false);
+                await renderAboutPreview();
+                await updateStats();
+                setTimeout(() => setUrlStatus('aboutUrlStatus', '', false), 3000);
+            } catch (err) {
+                setUrlStatus('aboutUrlStatus', '❌ ' + err.message, true);
+            }
+        });
+
+        document.getElementById('aboutDeleteBtn').addEventListener('click', async () => {
+            if (!confirm('Удалить фото художника?')) return;
+            await deleteAboutPhoto();
+            await renderAboutPreview();
+            await updateStats();
+        });
+
+        // ============================================
+        // Gallery — Add by URL
+        // ============================================
+        document.getElementById('galleryUrlBtn').addEventListener('click', async () => {
+            const url = document.getElementById('galleryUrl').value.trim();
+            if (!url) { setUrlStatus('galleryUrlStatus', 'Введите ссылку', true); return; }
+            const wide = document.getElementById('galleryWide').checked;
+
+            setUrlStatus('galleryUrlStatus', '⏳ Проверка...', false);
+            try {
+                await checkImageUrl(url);
+                const items = await getGallery(currentCategory);
+                items.push({
+                    id: Date.now().toString() + Math.random().toString(36).slice(2, 6),
+                    data: url,
+                    type: 'url',
+                    wide: wide,
+                    alt_ru: 'Работа',
+                    alt_de: 'Werk'
+                });
+                await setGallery(currentCategory, items);
+                localStorage.setItem('mila_last_gallery_update', new Date().toISOString());
+                document.getElementById('galleryUrl').value = '';
+                document.getElementById('galleryWide').checked = false;
+                setUrlStatus('galleryUrlStatus', '✅ Добавлено!', false);
+                await renderGallery(currentCategory);
+                await updateStats();
+                setTimeout(() => setUrlStatus('galleryUrlStatus', '', false), 3000);
+            } catch (err) {
+                setUrlStatus('galleryUrlStatus', '❌ ' + err.message, true);
+            }
+        });
+
+        // Enter key support
+        document.getElementById('galleryUrl').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('galleryUrlBtn').click();
+        });
+        document.getElementById('aboutUrl').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('aboutUrlBtn').click();
+        });
+
+        // ============================================
+        // Render Gallery
+        // ============================================
+        async function renderGallery(category) {
+            const grid = document.getElementById('galleryGridAdmin');
+            const items = await getGallery(category);
+            
+            if (items.length === 0) {
+                grid.innerHTML = '<div class="admin-empty-msg">Нет фото в этой категории</div>';
+                return;
+            }
+
+            grid.innerHTML = items.map((item, idx) => {
+                const wideLabel = item.wide ? 'Широкое' : 'Обычное';
+                return `
+                    <div class="gallery-item-admin" draggable="true" data-id="${item.id}" data-index="${idx}">
+                        <img src="${item.data}" alt="" onerror="this.style.display='none';this.parentElement.style.background='#e2e8f0';">
+                        <div class="drag-handle">⠿ #${idx + 1}</div>
+                        <div class="item-wide-badge">${wideLabel}</div>
+                        <div class="item-overlay">
+                            <span class="item-num">#${idx + 1}</span>
+                            <div class="btn-group">
+                                <button class="btn-replace" onclick="replacePhoto('${category}', '${item.id}')">🔄 Заменить</button>
+                                <button class="btn-delete" onclick="deletePhoto('${category}', '${item.id}')">🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Re-bind drag events
+            setupDragAndDrop();
+        }
+
+        // ============================================
+        // Delete Photo
+        // ============================================
+        window.deletePhoto = async function(category, id) {
+            if (!confirm('Удалить это фото?')) return;
+            let items = await getGallery(category);
+            items = items.filter(i => i.id !== id);
+            await setGallery(category, items);
+            localStorage.setItem('mila_last_gallery_update', new Date().toISOString());
+            await renderGallery(category);
+            await updateStats();
+        };
+
+        // ============================================
+        // Replace Photo
+        // ============================================
+        window.replacePhoto = async function(category, id) {
+            const newUrl = prompt('Введите новую ссылку на фото (Direct link с imgbb.com):');
+            if (!newUrl) return;
+            
+            setUrlStatus('galleryUrlStatus', '⏳ Проверка...', false);
+            try {
+                await checkImageUrl(newUrl);
+                let items = await getGallery(category);
+                const index = items.findIndex(i => i.id === id);
+                if (index === -1) return;
+                items[index].data = newUrl;
+                await setGallery(category, items);
+                localStorage.setItem('mila_last_gallery_update', new Date().toISOString());
+                setUrlStatus('galleryUrlStatus', '✅ Фото заменено!', false);
+                await renderGallery(category);
+                await updateStats();
+                setTimeout(() => setUrlStatus('galleryUrlStatus', '', false), 3000);
+            } catch (err) {
+                setUrlStatus('galleryUrlStatus', '❌ ' + err.message, true);
+            }
+        };
+
+        // ============================================
+        // Drag & Drop
+        // ============================================
+        function setupDragAndDrop() {
+            const items = document.querySelectorAll('.gallery-item-admin');
+            
+            items.forEach(el => {
+                el.removeEventListener('dragstart', handleDragStart);
+                el.removeEventListener('dragend', handleDragEnd);
+                el.removeEventListener('dragover', handleDragOver);
+                el.removeEventListener('dragenter', handleDragEnter);
+                el.removeEventListener('dragleave', handleDragLeave);
+                el.removeEventListener('drop', handleDrop);
+                
+                el.addEventListener('dragstart', handleDragStart);
+                el.addEventListener('dragend', handleDragEnd);
+                el.addEventListener('dragover', handleDragOver);
+                el.addEventListener('dragenter', handleDragEnter);
+                el.addEventListener('dragleave', handleDragLeave);
+                el.addEventListener('drop', handleDrop);
+            });
+        }
+
+        function handleDragStart(e) {
+            const el = e.currentTarget;
+            dragData = {
+                id: el.dataset.id,
+                index: parseInt(el.dataset.index),
+                category: currentCategory
+            };
+            el.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', el.dataset.id);
+        }
+
+        function handleDragEnd(e) {
+            e.currentTarget.classList.remove('dragging');
+            document.querySelectorAll('.gallery-item-admin.drag-over').forEach(el => el.classList.remove('drag-over'));
+            document.getElementById('galleryGridAdmin').classList.remove('drag-over');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const grid = document.getElementById('galleryGridAdmin');
+            grid.classList.add('drag-over');
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            const el = e.currentTarget;
+            if (el.dataset.id !== dragData?.id) {
+                el.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        async function handleDrop(e) {
+            e.preventDefault();
+            const target = e.currentTarget;
+            target.classList.remove('drag-over');
+            document.getElementById('galleryGridAdmin').classList.remove('drag-over');
+
+            if (!dragData || dragData.category !== currentCategory) return;
+            if (dragData.id === target.dataset.id) return;
+
+            const fromIndex = dragData.index;
+            const toIndex = parseInt(target.dataset.index);
+            
+            if (isNaN(fromIndex) || isNaN(toIndex)) return;
+
+            let items = await getGallery(currentCategory);
+            const [movedItem] = items.splice(fromIndex, 1);
+            items.splice(toIndex, 0, movedItem);
+            
+            await setGallery(currentCategory, items);
+            localStorage.setItem('mila_last_gallery_update', new Date().toISOString());
+            await renderGallery(currentCategory);
+            await updateStats();
+            
+            dragData = null;
+        }
+
+        // ============================================
+        // Check Auth on load
+        // ============================================
+        checkAuth();
+    </script>
+</body>
+</html>
