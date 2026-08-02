@@ -452,26 +452,25 @@
         // IndexedDB
         // ============================================
         function openDB() {
-    return new Promise((resolve, reject) => {
-        // Если база уже открыта и совпадает по имени — используем её
-        if (db && db.name === DB_NAME) {
-            resolve(db);
-            return;
+            return new Promise((resolve, reject) => {
+                if (db && db.name === DB_NAME) {
+                    resolve(db);
+                    return;
+                }
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                request.onupgradeneeded = (e) => {
+                    const database = e.target.result;
+                    if (!database.objectStoreNames.contains('photos')) {
+                        database.createObjectStore('photos');
+                    }
+                };
+            });
         }
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onerror = () => reject(request.error);
-        request.onsuccess = () => {
-            db = request.result;
-            resolve(db);
-        };
-        request.onupgradeneeded = (e) => {
-            const database = e.target.result;
-            if (!database.objectStoreNames.contains('photos')) {
-                database.createObjectStore('photos');
-            }
-        };
-    });
-}
 
         function dbGet(key) {
             return new Promise((resolve, reject) => {
@@ -494,14 +493,14 @@
         }
 
         function dbDelete(key) {
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction('photos', 'readwrite'); // ✅ ИСПРАВЛЕНО
-        const store = tx.objectStore('photos');
-        const req = store.delete(key);
-        req.onsuccess = () => resolve();
-        req.onerror = () => reject(req.error);
-    });
-}
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction('photos', 'readwrite');
+                const store = tx.objectStore('photos');
+                const req = store.delete(key);
+                req.onsuccess = () => resolve();
+                req.onerror = () => reject(req.error);
+            });
+        }
 
         async function getGallery(category) {
             const key = 'gallery_' + category;
@@ -524,6 +523,25 @@
 
         async function deleteAboutPhoto() {
             await dbDelete('about_photo');
+        }
+
+        // ============================================
+        // Update Stats
+        // ============================================
+        async function updateStats() {
+            const personal = await getGallery('personal');
+            const students = await getGallery('students');
+            const neuro = await getGallery('neuro');
+            const about = await getAboutPhoto();
+
+            document.getElementById('statPersonal').textContent = personal.length;
+            document.getElementById('statStudents').textContent = students.length;
+            document.getElementById('statNeuro').textContent = neuro.length;
+            document.getElementById('statAbout').textContent = about && about.data ? '✓' : '—';
+
+            document.getElementById('badgePersonal').textContent = personal.length;
+            document.getElementById('badgeStudents').textContent = students.length;
+            document.getElementById('badgeNeuro').textContent = neuro.length;
         }
 
         function checkImageUrl(url) {
@@ -621,23 +639,22 @@
         // Dashboard
         // ============================================
         async function initDashboard() {
-    try {
-        await openDB(); // теперь она корректно заполняет db
-        await renderAboutPreview();
-        await renderGallery(currentCategory);
-        await updateStats();
-        setupTabs();
-        setupDragAndDrop();
-    } catch (e) {
-        console.error('❌ Ошибка инициализации:', e);
-        // Показываем уведомление пользователю
-        const status = document.getElementById('galleryUrlStatus');
-        if (status) {
-            status.textContent = '❌ Ошибка загрузки данных: ' + e.message;
-            status.className = 'url-status err';
+            try {
+                await openDB();
+                await renderAboutPreview();
+                await renderGallery(currentCategory);
+                await updateStats();
+                setupTabs();
+                setupDragAndDrop();
+            } catch (e) {
+                console.error('❌ Ошибка инициализации:', e);
+                const status = document.getElementById('galleryUrlStatus');
+                if (status) {
+                    status.textContent = '❌ Ошибка загрузки данных: ' + e.message;
+                    status.className = 'url-status err';
+                }
+            }
         }
-    }
-}
 
         // ============================================
         // Tabs
@@ -656,25 +673,25 @@
         // ============================================
         // About Photo
         // ============================================
-       async function renderAboutPreview() {
-    const preview = document.getElementById('aboutPreview');
-    const photo = await getAboutPhoto();
-    if (photo && photo.data) {
-        const img = document.createElement('img');
-        img.src = photo.data;
-        img.alt = 'Фото художника';
-        img.style.width = '100%';
-        img.style.height = 'auto';
-        img.style.display = 'block';
-        img.onerror = function() {
-            this.parentElement.innerHTML = '<div class="about-photo-preview-empty">Ошибка загрузки</div>';
-        };
-        preview.innerHTML = '';
-        preview.appendChild(img);
-    } else {
-        preview.innerHTML = '<div class="about-photo-preview-empty">Фото не загружено</div>';
-    }
-}
+        async function renderAboutPreview() {
+            const preview = document.getElementById('aboutPreview');
+            const photo = await getAboutPhoto();
+            if (photo && photo.data) {
+                const img = document.createElement('img');
+                img.src = photo.data;
+                img.alt = 'Фото художника';
+                img.style.width = '100%';
+                img.style.height = 'auto';
+                img.style.display = 'block';
+                img.onerror = function() {
+                    this.parentElement.innerHTML = '<div class="about-photo-preview-empty">Ошибка загрузки</div>';
+                };
+                preview.innerHTML = '';
+                preview.appendChild(img);
+            } else {
+                preview.innerHTML = '<div class="about-photo-preview-empty">Фото не загружено</div>';
+            }
+        }
 
         document.getElementById('aboutUrlBtn').addEventListener('click', async () => {
             const url = document.getElementById('aboutUrl').value.trim();
@@ -772,7 +789,6 @@
                 `;
             }).join('');
 
-            // Re-bind drag events
             setupDragAndDrop();
         }
 
