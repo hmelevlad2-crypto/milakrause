@@ -452,18 +452,26 @@
         // IndexedDB
         // ============================================
         function openDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                request.onerror = () => reject(request.error);
-                request.onsuccess = () => { db = request.result; resolve(db); };
-                request.onupgradeneeded = (e) => {
-                    const database = e.target.result;
-                    if (!database.objectStoreNames.contains('photos')) {
-                        database.createObjectStore('photos');
-                    }
-                };
-            });
+    return new Promise((resolve, reject) => {
+        // Если уже открыта, просто возвращаем её
+        if (db && db.name === DB_NAME) {
+            resolve(db);
+            return;
         }
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+            db = request.result;
+            resolve(db);
+        };
+        request.onupgradeneeded = (e) => {
+            const database = e.target.result;
+            if (!database.objectStoreNames.contains('photos')) {
+                database.createObjectStore('photos');
+            }
+        };
+    });
+}
 
         function dbGet(key) {
             return new Promise((resolve, reject) => {
@@ -662,8 +670,7 @@
         img.src = photo.data;
         img.alt = 'Фото художника';
         img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.objectFit = 'cover';
+        img.style.height = 'auto';
         img.style.display = 'block';
         img.onerror = function() {
             this.parentElement.innerHTML = '<div class="about-photo-preview-empty">Ошибка загрузки</div>';
