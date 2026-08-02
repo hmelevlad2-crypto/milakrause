@@ -654,15 +654,26 @@
         // ============================================
         // About Photo
         // ============================================
-        async function renderAboutPreview() {
-            const preview = document.getElementById('aboutPreview');
-            const photo = await getAboutPhoto();
-            if (photo && photo.data) {
-                preview.innerHTML = '<img src="' + photo.data + '" alt="Фото художника" onerror="this.parentElement.innerHTML=\'<div class=\\'about-photo-preview-empty\\'>Ошибка загрузки</div>\';">';
-            } else {
-                preview.innerHTML = '<div class="about-photo-preview-empty">Фото не загружено</div>';
-            }
-        }
+       async function renderAboutPreview() {
+    const preview = document.getElementById('aboutPreview');
+    const photo = await getAboutPhoto();
+    if (photo && photo.data) {
+        const img = document.createElement('img');
+        img.src = photo.data;
+        img.alt = 'Фото художника';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.display = 'block';
+        img.onerror = function() {
+            this.parentElement.innerHTML = '<div class="about-photo-preview-empty">Ошибка загрузки</div>';
+        };
+        preview.innerHTML = '';
+        preview.appendChild(img);
+    } else {
+        preview.innerHTML = '<div class="about-photo-preview-empty">Фото не загружено</div>';
+    }
+}
 
         document.getElementById('aboutUrlBtn').addEventListener('click', async () => {
             const url = document.getElementById('aboutUrl').value.trim();
