@@ -453,7 +453,7 @@
         // ============================================
         function openDB() {
     return new Promise((resolve, reject) => {
-        // Если уже открыта, просто возвращаем её
+        // Если база уже открыта и совпадает по имени — используем её
         if (db && db.name === DB_NAME) {
             resolve(db);
             return;
@@ -621,29 +621,23 @@
         // Dashboard
         // ============================================
         async function initDashboard() {
-            await openDB();
-            await renderAboutPreview();
-            await renderGallery(currentCategory);
-            await updateStats();
-            setupTabs();
-            setupDragAndDrop();
+    try {
+        await openDB(); // теперь она корректно заполняет db
+        await renderAboutPreview();
+        await renderGallery(currentCategory);
+        await updateStats();
+        setupTabs();
+        setupDragAndDrop();
+    } catch (e) {
+        console.error('❌ Ошибка инициализации:', e);
+        // Показываем уведомление пользователю
+        const status = document.getElementById('galleryUrlStatus');
+        if (status) {
+            status.textContent = '❌ Ошибка загрузки данных: ' + e.message;
+            status.className = 'url-status err';
         }
-
-        async function updateStats() {
-            const personal = await getGallery('personal');
-            const students = await getGallery('students');
-            const neuro = await getGallery('neuro');
-            const about = await getAboutPhoto();
-
-            document.getElementById('statPersonal').textContent = personal.length;
-            document.getElementById('statStudents').textContent = students.length;
-            document.getElementById('statNeuro').textContent = neuro.length;
-            document.getElementById('statAbout').textContent = about && about.data ? '✓' : '—';
-
-            document.getElementById('badgePersonal').textContent = personal.length;
-            document.getElementById('badgeStudents').textContent = students.length;
-            document.getElementById('badgeNeuro').textContent = neuro.length;
-        }
+    }
+}
 
         // ============================================
         // Tabs
