@@ -13,7 +13,7 @@ const translations = {
         nav_gallery: 'Галерея',
         nav_contact: 'Контакты',
         btn_contact: 'Связаться',
-        hero_badge: 'Художник с 20-летним стажем',
+        hero_badge: 'Художник с 20-летним стажем',а
         hero_title: 'Раскрываю талант каждого ребёнка через творчество',
         hero_text: 'Художественные занятия для детей, арт-терапия, нейрографика и консультации по астрогенетике. Работаю в Ойскирхене и онлайн с русско- и украиноязычными семьями в Германии и за рубежом.',
         badge_1: 'Индивидуальный подход',
@@ -377,12 +377,36 @@ async function renderAboutPhoto() {
     const t = translations[currentLang];
     const alt = currentLang === 'ru' ? 'Фото художника' : 'Foto der Künstlerin';
 
-    if (photo && photo.data && photo.data.length > 100) {
-        frame.innerHTML = `<img src="${photo.data}" alt="${alt}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'about-placeholder\\'><svg width=\\'56\\' height=\\'56\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1\\'><path d=\\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\\'/><circle cx=\\'12\\' cy=\\'7\\' r=\\'4\\'/></svg><span data-i18n=\\'photo_placeholder\\'>${t.photo_placeholder}</span></div>';">`;
+    if (photo && photo.data) {
+        // Создаём изображение через DOM, чтобы избежать ошибок с кавычками
+        const img = document.createElement('img');
+        img.src = photo.data;
+        img.alt = alt;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        img.style.display = 'block';
+        img.style.borderRadius = 'inherit';
+        img.onerror = function() {
+            this.parentElement.innerHTML = `
+                <div class="about-placeholder">
+                    <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span data-i18n="photo_placeholder">${t.photo_placeholder}</span>
+                </div>
+            `;
+        };
+        frame.innerHTML = '';
+        frame.appendChild(img);
     } else {
         frame.innerHTML = `
             <div class="about-placeholder">
-                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
                 <span data-i18n="photo_placeholder">${t.photo_placeholder}</span>
             </div>
         `;
