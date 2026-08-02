@@ -13,7 +13,7 @@ const translations = {
         nav_gallery: 'Галерея',
         nav_contact: 'Контакты',
         btn_contact: 'Связаться',
-        hero_badge: 'Художник с 20-летним стажем',а
+        hero_badge: 'Художник с 20-летним стажем',
         hero_title: 'Раскрываю талант каждого ребёнка через творчество',
         hero_text: 'Художественные занятия для детей, арт-терапия, нейрографика и консультации по астрогенетике. Работаю в Ойскирхене и онлайн с русско- и украиноязычными семьями в Германии и за рубежом.',
         badge_1: 'Индивидуальный подход',
@@ -55,7 +55,6 @@ const translations = {
         gallery_label: 'Портфолио',
         gallery_title: 'Галерея',
         gallery_subtitle: 'Фрагменты работ и ученических проектов в разных техниках',
-        // Категории галереи
         gallery_tab_personal: 'Личная',
         gallery_tab_students: 'Ученики',
         gallery_tab_neuro: 'Нейрографика',
@@ -258,7 +257,6 @@ async function renderGallery() {
     grid.innerHTML = '';
     if (moreWrap) moreWrap.innerHTML = '';
 
-    // Рендерим табы
     if (tabsWrap) {
         const t = translations[currentLang];
         tabsWrap.innerHTML = `
@@ -268,7 +266,6 @@ async function renderGallery() {
                 <button class="gallery-tab" data-category="neuro">${t.gallery_tab_neuro || '✏️ Нейрографика'}</button>
             </div>
         `;
-        // События для табов
         tabsWrap.querySelectorAll('.gallery-tab').forEach(tab => {
             tab.addEventListener('click', async function() {
                 tabsWrap.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
@@ -304,7 +301,6 @@ async function renderGalleryItems() {
     }
     const t = translations[currentLang];
 
-    // Если нет фото — показываем плейсхолдеры
     if (items.length === 0) {
         const defaults = [
             { id: 'p1', wide: true },
@@ -329,9 +325,7 @@ async function renderGalleryItems() {
         return;
     }
 
-    // Показываем все фото (на главной показываем все, на moreworks тоже все)
     const visibleItems = IS_MOREWORKS ? items : items;
-    
     visibleItems.forEach((item) => {
         const div = document.createElement('div');
         div.className = 'gallery-item' + (item.wide ? ' gallery-item-wide' : '');
@@ -349,7 +343,6 @@ async function renderGalleryItems() {
         grid.appendChild(div);
     });
 
-    // Кнопка "Больше работ" — только на главной, если есть фото
     if (!IS_MOREWORKS && items.length > 0 && moreWrap) {
         const btn = document.createElement('a');
         btn.className = 'btn btn-primary gallery-more-btn';
@@ -378,7 +371,6 @@ async function renderAboutPhoto() {
     const alt = currentLang === 'ru' ? 'Фото художника' : 'Foto der Künstlerin';
 
     if (photo && photo.data) {
-        // Создаём изображение через DOM, чтобы избежать ошибок с кавычками
         const img = document.createElement('img');
         img.src = photo.data;
         img.alt = alt;
@@ -423,7 +415,6 @@ async function renderMoreWorks() {
     if (!grid) return;
     grid.innerHTML = '';
 
-    // Рендерим табы на странице moreworks
     if (tabsWrap) {
         const t = translations[currentLang];
         tabsWrap.innerHTML = `
@@ -592,7 +583,6 @@ function copyEmail(e) {
 // DOM Ready
 // ============================================
 document.addEventListener('DOMContentLoaded', async function() {
-    // Page views counter
     try {
         let views = parseInt(localStorage.getItem('mila_page_views') || '0');
         localStorage.setItem('mila_page_views', (views + 1).toString());
@@ -613,7 +603,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         setLanguage(savedLang, false);
     }
 
-    // Language dropdown
     const langSwitch = document.getElementById('langSwitch');
     const langMenu = document.getElementById('langMenu');
 
@@ -642,13 +631,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle) {
         themeToggle.addEventListener('click', toggleTheme);
     }
 
-    // Mobile menu
     const menuToggle = document.getElementById('menuToggle');
     const nav = document.getElementById('nav');
     const header = document.getElementById('header');
@@ -679,7 +666,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Header scroll effect
     if (header) {
         window.addEventListener('scroll', function() {
             if (window.scrollY > 20) {
@@ -690,7 +676,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Smooth scroll (только на главной)
     if (!IS_MOREWORKS) {
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
