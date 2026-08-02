@@ -1,7 +1,7 @@
 // ============================================
 // Людмила Краусе — Художник, преподаватель
 // Montserrat | Бирюзовый + цвета | RU/DE | Тёмная тема
-// Фото хранятся в IndexedDB, 3 категории галереи
+// Фото: IndexedDB + статические fallback (из /images)
 // ============================================
 
 const translations = {
@@ -164,14 +164,52 @@ const DB_NAME = 'MilaKrauseDB';
 const DB_VERSION = 2;
 const IS_MOREWORKS = location.pathname.includes('moreworks');
 
+// Статические файлы для fallback (если в IndexedDB пусто)
+const STATIC_FILES = {
+    personal: [
+        { name: '1s.jpg', wide: true },
+        { name: '2.jpg', wide: false },
+        { name: '3.jpg', wide: false },
+        { name: '4.jpg', wide: false },
+        { name: '5.jpg', wide: false },
+        { name: '6s.jpg', wide: true }
+    ],
+    students: [
+        { name: '11s.jpg', wide: true },
+        { name: '22.jpg', wide: false },
+        { name: '33.jpg', wide: false },
+        { name: '44.jpg', wide: false },
+        { name: '55.jpg', wide: false },
+        { name: '66s.jpg', wide: true }
+    ],
+    neuro: [
+        { name: '111s.jpg', wide: true },
+        { name: '222.jpg', wide: false },
+        { name: '333.jpg', wide: false },
+        { name: '444.jpg', wide: false },
+        { name: '555.jpg', wide: false },
+        { name: '666s.jpg', wide: true }
+    ]
+};
+
+// Статическое фото для раздела "Обо мне"
+const STATIC_ABOUT_PHOTO = '/images/main.jpg';
+
 // ============================================
 // IndexedDB
 // ============================================
 function openDB() {
     return new Promise((resolve, reject) => {
+        if (db && db.name === DB_NAME) {
+            resolve(db);
+            return;
+        }
         const request = indexedDB.open(DB_NAME, DB_VERSION);
         request.onerror = () => reject(request.error);
-        request.onsuccess = () => { db = request.result; resolve(db); };
+        request.onsuccess = () => {
+            db = request.result;
+            resolve(db);
+        };
         request.onupgradeneeded = (e) => {
             const database = e.target.result;
             if (!database.objectStoreNames.contains('photos')) {
@@ -234,9 +272,6 @@ async function deleteAboutPhoto() {
     await dbDelete('about_photo');
 }
 
-// ============================================
-// File to Base64
-// ============================================
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -247,7 +282,7 @@ function fileToBase64(file) {
 }
 
 // ============================================
-// Render — главная страница
+// Render Gallery (главная)
 // ============================================
 async function renderGallery() {
     const grid = document.getElementById('galleryGrid');
@@ -270,13 +305,13 @@ async function renderGallery() {
             tab.addEventListener('click', async function() {
                 tabsWrap.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                const grid = document.getElementById('galleryGrid');
-                if (grid) {
-                    grid.classList.add('switching');
+                const gridEl = document.getElementById('galleryGrid');
+                if (gridEl) {
+                    gridEl.classList.add('switching');
                     await new Promise(r => setTimeout(r, 250));
                     currentGalleryCategory = this.dataset.category;
                     await renderGalleryItems();
-                    grid.classList.remove('switching');
+                    gridEl.classList.remove('switching');
                 } else {
                     currentGalleryCategory = this.dataset.category;
                     await renderGalleryItems();
@@ -299,61 +334,125 @@ async function renderGalleryItems() {
     if (db) {
         try { items = await getGallery(currentGalleryCategory); } catch(e) { console.warn('Gallery load error:', e); }
     }
-    const t = translations[currentLang];
 
-    if (items.length === 0) {
-        const defaults = [
-            { id: 'p1', wide: true },
-            { id: 'p2', wide: false },
-            { id: 'p3', wide: false },
-            { id: 'p4', wide: false },
-            { id: 'p5', wide: false },
-            { id: 'p6', wide: true },
-        ];
-        defaults.forEach((item, index) => {
+    // Если в IndexedDB нет фото — используем статические файлы
+    const staticItems = STATIC_FILES[currentGalleryCategory] || [];
+    const hasStatic = staticItems.length > 0;
+
+    if (items.length === 0 && hasStatic) {
+        staticItems.forEach((file, index) => {
             const div = document.createElement('div');
-            div.className = 'gallery-item' + (item.wide ? ' gallery-item-wide' : '');
-            const alt = t['work_' + (index + 1)] || ('Work ' + (index + 1));
-            div.innerHTML = `
-                <div class="gallery-placeholder">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                    <span>${alt}</span>
-                </div>
-            `;
+            div.className = 'gallery-item' + (file.wide ? ' gallery-item-wide' : '');
+            const img = document.createElement('img');
+            img.src = `/images/${file.name}`;
+            img.alt = `Работа ${index + 1}`;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            img.style.display = 'block';
+            img.style.borderRadius = 'inherit';
+            img.onerror = function() {
+                this.parentElement.innerHTML = `
+                    <div class="gallery-placeholder">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <path d="M21 15l-5-5L5 21"/>
+                        </svg>
+                        <span>${translations[currentLang]['work_' + (index + 1)] || 'Работа ' + (index + 1)}</span>
+                    </div>
+                `;
+            };
+            div.appendChild(img);
             grid.appendChild(div);
         });
+        if (!IS_MOREWORKS && hasStatic && moreWrap) {
+            const btn = document.createElement('a');
+            btn.className = 'btn btn-primary gallery-more-btn';
+            btn.href = GALLERY_MORE_URL;
+            btn.textContent = translations[currentLang].gallery_more || 'Больше работ';
+            moreWrap.appendChild(btn);
+        }
         return;
     }
 
-    const visibleItems = IS_MOREWORKS ? items : items;
-    visibleItems.forEach((item) => {
+    if (items.length > 0) {
+        items.forEach((item) => {
+            const div = document.createElement('div');
+            div.className = 'gallery-item' + (item.wide ? ' gallery-item-wide' : '');
+            const alt = currentLang === 'ru' ? (item.alt_ru || '') : (item.alt_de || '');
+            if (item.data) {
+                const img = document.createElement('img');
+                img.src = item.data;
+                img.alt = alt;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.display = 'block';
+                img.style.borderRadius = 'inherit';
+                img.onerror = function() {
+                    this.parentElement.innerHTML = `
+                        <div class="gallery-placeholder">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <path d="M21 15l-5-5L5 21"/>
+                            </svg>
+                            <span>${alt}</span>
+                        </div>
+                    `;
+                };
+                div.appendChild(img);
+            } else {
+                div.innerHTML = `
+                    <div class="gallery-placeholder">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <path d="M21 15l-5-5L5 21"/>
+                        </svg>
+                        <span>${alt}</span>
+                    </div>
+                `;
+            }
+            grid.appendChild(div);
+        });
+
+        if (!IS_MOREWORKS && moreWrap) {
+            const btn = document.createElement('a');
+            btn.className = 'btn btn-primary gallery-more-btn';
+            btn.href = GALLERY_MORE_URL;
+            btn.textContent = translations[currentLang].gallery_more || 'Больше работ';
+            moreWrap.appendChild(btn);
+        }
+        return;
+    }
+
+    // Если нет ни статики, ни данных из IndexedDB — показываем плейсхолдеры
+    const defaults = [
+        { wide: true }, { wide: false }, { wide: false },
+        { wide: false }, { wide: false }, { wide: true }
+    ];
+    defaults.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'gallery-item' + (item.wide ? ' gallery-item-wide' : '');
-        const alt = currentLang === 'ru' ? (item.alt_ru || '') : (item.alt_de || '');
-        if (item.data) {
-            div.innerHTML = `<img src="${item.data}" alt="${alt}" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'gallery-placeholder\\'><svg width=\\'36\\' height=\\'36\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><path d=\\'M21 15l-5-5L5 21\\'/></svg><span>${alt}</span></div>';">`;
-        } else {
-            div.innerHTML = `
-                <div class="gallery-placeholder">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                    <span>${alt}</span>
-                </div>
-            `;
-        }
+        const alt = translations[currentLang]['work_' + (index + 1)] || ('Work ' + (index + 1));
+        div.innerHTML = `
+            <div class="gallery-placeholder">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <path d="M21 15l-5-5L5 21"/>
+                </svg>
+                <span>${alt}</span>
+            </div>
+        `;
         grid.appendChild(div);
     });
-
-    if (!IS_MOREWORKS && items.length > 0 && moreWrap) {
-        const btn = document.createElement('a');
-        btn.className = 'btn btn-primary gallery-more-btn';
-        btn.href = GALLERY_MORE_URL;
-        btn.textContent = t.gallery_more || 'Больше работ';
-        moreWrap.appendChild(btn);
-    }
 }
 
 // ============================================
-// Render About Photo
+// Render About Photo (с fallback на main.jpg)
 // ============================================
 async function renderAboutPhoto() {
     const frame = document.getElementById('aboutFrame');
@@ -370,6 +469,7 @@ async function renderAboutPhoto() {
     const t = translations[currentLang];
     const alt = currentLang === 'ru' ? 'Фото художника' : 'Foto der Künstlerin';
 
+    // Если есть фото в IndexedDB — используем его
     if (photo && photo.data) {
         const img = document.createElement('img');
         img.src = photo.data;
@@ -392,8 +492,20 @@ async function renderAboutPhoto() {
         };
         frame.innerHTML = '';
         frame.appendChild(img);
-    } else {
-        frame.innerHTML = `
+        return;
+    }
+
+    // Если нет в IndexedDB — пробуем загрузить main.jpg
+    const img = document.createElement('img');
+    img.src = STATIC_ABOUT_PHOTO;
+    img.alt = alt;
+    img.style.width = '100%';
+    img.style.height = '100%';
+    img.style.objectFit = 'cover';
+    img.style.display = 'block';
+    img.style.borderRadius = 'inherit';
+    img.onerror = function() {
+        this.parentElement.innerHTML = `
             <div class="about-placeholder">
                 <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -402,11 +514,13 @@ async function renderAboutPhoto() {
                 <span data-i18n="photo_placeholder">${t.photo_placeholder}</span>
             </div>
         `;
-    }
+    };
+    frame.innerHTML = '';
+    frame.appendChild(img);
 }
 
 // ============================================
-// Render — страница всех работ
+// Render More Works
 // ============================================
 async function renderMoreWorks() {
     const grid = document.getElementById('moreworksGrid');
@@ -428,13 +542,13 @@ async function renderMoreWorks() {
             tab.addEventListener('click', async function() {
                 tabsWrap.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
-                const grid = document.getElementById('moreworksGrid');
-                if (grid) {
-                    grid.classList.add('switching');
+                const gridEl = document.getElementById('moreworksGrid');
+                if (gridEl) {
+                    gridEl.classList.add('switching');
                     await new Promise(r => setTimeout(r, 250));
                     currentGalleryCategory = this.dataset.category;
                     await renderMoreWorksItems();
-                    grid.classList.remove('switching');
+                    gridEl.classList.remove('switching');
                 } else {
                     currentGalleryCategory = this.dataset.category;
                     await renderMoreWorksItems();
@@ -457,6 +571,49 @@ async function renderMoreWorksItems() {
         try { items = await getGallery(currentGalleryCategory); } catch(e) { console.warn('MoreWorks load error:', e); }
     }
 
+    const staticItems = STATIC_FILES[currentGalleryCategory] || [];
+
+    if (items.length === 0 && staticItems.length > 0) {
+        if (empty) empty.classList.remove('show');
+        staticItems.forEach((file, idx) => {
+            const div = document.createElement('div');
+            div.className = 'moreworks-item';
+            const alt = translations[currentLang]['work_' + (idx + 1)] || ('Работа ' + (idx + 1));
+            const img = document.createElement('img');
+            img.src = `/images/${file.name}`;
+            img.alt = alt;
+            img.loading = 'lazy';
+            img.style.width = '100%';
+            img.style.aspectRatio = '1';
+            img.style.objectFit = 'cover';
+            img.onerror = function() {
+                this.parentElement.innerHTML = `
+                    <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--slate-400);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <path d="M21 15l-5-5L5 21"/>
+                        </svg>
+                    </div>
+                    <div class="moreworks-caption">
+                        <span class="moreworks-num">#${idx + 1}</span>
+                        <span class="moreworks-name">${alt}</span>
+                    </div>
+                `;
+            };
+            div.appendChild(img);
+            const caption = document.createElement('div');
+            caption.className = 'moreworks-caption';
+            caption.innerHTML = `
+                <span class="moreworks-num">#${idx + 1}</span>
+                <span class="moreworks-name">${alt}</span>
+            `;
+            div.appendChild(caption);
+            grid.appendChild(div);
+        });
+        return;
+    }
+
     if (items.length === 0) {
         if (empty) empty.classList.add('show');
         return;
@@ -468,17 +625,44 @@ async function renderMoreWorksItems() {
         div.className = 'moreworks-item';
         const alt = currentLang === 'ru' ? (item.alt_ru || ('Работа ' + (idx + 1))) : (item.alt_de || ('Werk ' + (idx + 1)));
         if (item.data) {
-            div.innerHTML = `
-                <img src="${item.data}" alt="${alt}" loading="lazy" onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'moreworks-placeholder\\' style=\\'padding:40px;text-align:center;color:var(--slate-400);\\'><svg width=\\'40\\' height=\\'40\\' viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1\\' style=\\'opacity:0.5;\\'><rect x=\\'3\\' y=\\'3\\' width=\\'18\\' height=\\'18\\' rx=\\'2\\'/><circle cx=\\'8.5\\' cy=\\'8.5\\' r=\\'1.5\\'/><path d=\\'M21 15l-5-5L5 21\\'/></svg></div><div class=\\'moreworks-caption\\'><span class=\\'moreworks-num\\'>#${idx + 1}</span><span class=\\'moreworks-name\\'>${alt}</span></div>';">
-                <div class="moreworks-caption">
-                    <span class="moreworks-num">#${idx + 1}</span>
-                    <span class="moreworks-name">${alt}</span>
-                </div>
+            const img = document.createElement('img');
+            img.src = item.data;
+            img.alt = alt;
+            img.loading = 'lazy';
+            img.style.width = '100%';
+            img.style.aspectRatio = '1';
+            img.style.objectFit = 'cover';
+            img.onerror = function() {
+                this.parentElement.innerHTML = `
+                    <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--slate-400);">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <path d="M21 15l-5-5L5 21"/>
+                        </svg>
+                    </div>
+                    <div class="moreworks-caption">
+                        <span class="moreworks-num">#${idx + 1}</span>
+                        <span class="moreworks-name">${alt}</span>
+                    </div>
+                `;
+            };
+            div.appendChild(img);
+            const caption = document.createElement('div');
+            caption.className = 'moreworks-caption';
+            caption.innerHTML = `
+                <span class="moreworks-num">#${idx + 1}</span>
+                <span class="moreworks-name">${alt}</span>
             `;
+            div.appendChild(caption);
         } else {
             div.innerHTML = `
                 <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--slate-400);">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                    </svg>
                 </div>
                 <div class="moreworks-caption">
                     <span class="moreworks-num">#${idx + 1}</span>
@@ -491,7 +675,7 @@ async function renderMoreWorksItems() {
 }
 
 // ============================================
-// Translations
+// Translations, Theme, etc.
 // ============================================
 function setLanguage(lang, animate = true) {
     currentLang = lang;
@@ -536,9 +720,6 @@ function applyTranslations(t, lang) {
     localStorage.setItem('lang', lang);
 }
 
-// ============================================
-// Theme
-// ============================================
 function toggleTheme() {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
@@ -550,9 +731,6 @@ function initTheme() {
     if (saved === 'dark') document.body.classList.add('dark-theme');
 }
 
-// ============================================
-// Copy email
-// ============================================
 function copyEmail(e) {
     e.preventDefault();
     const email = 'ludmilakrause900@gmail.com';
