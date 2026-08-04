@@ -64,6 +64,12 @@
     /* Переходы */
     --t: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --t-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ===== НОВЫЕ ПЕРЕМЕННЫЕ ДЛЯ СВЕТЛОЙ ТЕМЫ (70% бирюзового, 30% белого) ===== */
+    --bg-primary: linear-gradient(135deg, var(--teal-50) 0%, var(--teal-200) 100%);
+    --bg-surface: #ffffff;
+    --text-primary: #ffffff;
+    --text-surface: var(--slate-800);
 }
 
 /* ============================================
@@ -227,10 +233,13 @@ body.dark-theme .nav a { border-bottom-color: rgba(255,255,255,0.05); }
 
 html { font-size: 15px; scroll-behavior: smooth; }
 
+/* ============================================
+   СВЕТЛАЯ ТЕМА (по умолчанию) — 70% бирюзового
+   ============================================ */
 body {
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--white);
-    color: var(--slate-800);
+    background: var(--bg-primary);
+    color: var(--text-surface);
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
@@ -240,29 +249,33 @@ body {
 .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
 
 /* ============================================
-   HEADER
+   HEADER (светлая тема)
    ============================================ */
 .header {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    background: rgba(255,255,255,0.45);
+    background: rgba(255,255,255,0.15);
     backdrop-filter: blur(16px) saturate(1.2);
     -webkit-backdrop-filter: blur(16px) saturate(1.2);
-    border-bottom: 1px solid rgba(226,232,240,0.35);
+    border-bottom: 1px solid rgba(255,255,255,0.25);
     transition: var(--t);
 }
-.header.scrolled { box-shadow: var(--shadow-sm); background: rgba(255,255,255,0.75); }
+.header.scrolled {
+    background: rgba(255,255,255,0.3);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+}
 
 .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
 
-/* Logo with photo */
+/* Logo — белый на бирюзовом */
 .logo {
     display: flex; align-items: center; gap: 12px;
     font-family: 'Montserrat', sans-serif;
     font-size: 1.45rem; font-weight: 800;
-    color: var(--teal-600); text-decoration: none;
+    color: #ffffff;
+    text-decoration: none;
     letter-spacing: -0.03em; white-space: nowrap;
-    background: var(--gradient-teal);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    background: none;
+    -webkit-text-fill-color: #ffffff;
 }
 .logo-img {
     width: 40px; height: 40px; border-radius: 50%;
@@ -272,69 +285,76 @@ body {
 
 .nav { display: flex; gap: 32px; }
 .nav a {
-    font-size: 0.82rem; font-weight: 600; color: var(--slate-500);
+    font-size: 0.82rem; font-weight: 600; color: rgba(255,255,255,0.8);
     text-decoration: none; transition: var(--t); position: relative; padding: 4px 0;
 }
 .nav a::after {
     content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2.5px;
-    background: var(--gradient-teal); border-radius: 2px; transition: var(--t);
+    background: #ffffff;
+    border-radius: 2px; transition: var(--t);
 }
-.nav a:hover { color: var(--teal-600); }
+.nav a:hover { color: #ffffff; }
 .nav a:hover::after { width: 100%; }
 
 .header-right { display: flex; align-items: center; gap: 10px; }
 
-/* Button "Связаться" in header */
+/* Button "Связаться" in header — белая рамка */
 .btn-small {
     display: inline-flex; align-items: center; justify-content: center;
     padding: 2px 6px; font-family: 'Montserrat', sans-serif;
     font-size: 0.5rem; font-weight: 700; border-radius: var(--r-full);
     text-decoration: none; cursor: pointer; transition: var(--t);
-    border: 1px solid var(--teal-300);
-    background: transparent; color: var(--teal-700);
+    border: 1px solid rgba(255,255,255,0.4);
+    background: transparent; color: #ffffff;
     box-shadow: none;
     white-space: nowrap;
     margin-left: 6px;
     letter-spacing: 0.02em;
 }
 .btn-small:hover {
-    background: var(--teal-50);
-    border-color: var(--teal-400);
-    color: var(--teal-800);
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.8);
+    color: #ffffff;
 }
 
-/* Theme toggle */
+/* Theme toggle — белый */
 .theme-toggle {
     display: flex; align-items: center; justify-content: center;
     width: 34px; height: 34px; border-radius: 50%;
-    background: var(--teal-50); border: 1.5px solid var(--teal-200);
-    color: var(--teal-600); cursor: pointer; transition: var(--t);
+    background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    color: #ffffff;
+    cursor: pointer; transition: var(--t);
     position: relative; overflow: hidden;
 }
-.theme-toggle:hover { background: var(--teal-100); border-color: var(--teal-300); transform: rotate(15deg); }
+.theme-toggle:hover { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6); transform: rotate(15deg); }
 .theme-toggle .sun-icon, .theme-toggle .moon-icon { position: absolute; transition: var(--t); }
 .theme-toggle .sun-icon { opacity: 1; transform: scale(1); }
 .theme-toggle .moon-icon { opacity: 0; transform: scale(0.5); }
 body.dark-theme .theme-toggle .sun-icon { opacity: 0; transform: scale(0.5); }
 body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 
-/* Language dropdown */
+/* Language dropdown — белый */
 .lang-dropdown { position: relative; }
 .lang-switch {
     display: flex; align-items: center; gap: 5px;
-    padding: 6px 12px; background: var(--teal-50);
-    border: 1.5px solid var(--teal-200); border-radius: var(--r-full);
+    padding: 6px 12px; background: rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: var(--r-full);
     font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700;
-    color: var(--teal-700); cursor: pointer; transition: var(--t);
+    color: #ffffff;
+    cursor: pointer; transition: var(--t);
 }
-.lang-switch:hover { background: var(--teal-100); border-color: var(--teal-300); }
+.lang-switch:hover { background: rgba(255,255,255,0.3); border-color: rgba(255,255,255,0.6); }
 .lang-switch svg { transition: var(--t); }
 .lang-switch.open svg { transform: rotate(180deg); }
 
 .lang-menu {
     position: absolute; top: calc(100% + 8px); right: 0;
-    background: var(--white); border: 1px solid var(--slate-200);
-    border-radius: var(--r-md); box-shadow: var(--shadow-lg);
+    background: var(--bg-surface);
+    border: 1px solid var(--slate-200);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-lg);
     padding: 6px; min-width: 160px; opacity: 0; visibility: hidden;
     transform: translateY(-8px); transition: var(--t); z-index: 1001;
 }
@@ -354,10 +374,10 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
     display: none; flex-direction: column; gap: 5px;
     background: none; border: none; cursor: pointer; padding: 6px;
 }
-.menu-toggle span { display: block; width: 22px; height: 2.5px; background: var(--slate-700); border-radius: 2px; transition: var(--t); }
+.menu-toggle span { display: block; width: 22px; height: 2.5px; background: #ffffff; border-radius: 2px; transition: var(--t); }
 
 /* ============================================
-   HERO
+   HERO (уже бирюзовый, оставляем)
    ============================================ */
 .hero {
     position: relative; padding: 140px 0 100px; overflow: hidden;
@@ -399,7 +419,7 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 
 .badge {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 14px; background: var(--white);
+    padding: 8px 14px; background: var(--bg-surface);
     border: 1px solid var(--slate-200); border-radius: var(--r-full);
     font-size: 0.85rem; font-weight: 600; color: var(--slate-600);
     box-shadow: var(--shadow-xs); transition: var(--t);
@@ -450,38 +470,48 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 }
 
 /* ============================================
-   SECTIONS COMMON
+   SECTIONS COMMON — фон прозрачный, текст белый
    ============================================ */
 .section-header { text-align: center; max-width: 640px; margin: 0 auto 56px; }
 .section-label {
     display: inline-block; font-size: 0.7rem; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.12em; color: var(--teal-600);
-    margin-bottom: 14px; padding: 5px 12px; background: var(--teal-50);
-    border-radius: var(--r-full); border: 1px solid var(--teal-100);
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: #ffffff;
+    margin-bottom: 14px; padding: 5px 12px;
+    background: rgba(255,255,255,0.15);
+    border-radius: var(--r-full);
+    border: 1px solid rgba(255,255,255,0.25);
 }
 .section-title {
     font-family: 'Montserrat', sans-serif; font-size: clamp(1.6rem, 3.5vw, 2.3rem);
-    font-weight: 800; color: var(--slate-900); margin-bottom: 16px;
+    font-weight: 800; color: #ffffff;
+    margin-bottom: 16px;
     letter-spacing: -0.03em; line-height: 1.15;
 }
-.section-subtitle { font-size: 0.95rem; color: var(--slate-500); line-height: 1.65; font-weight: 400; }
+.section-subtitle {
+    font-size: 0.95rem; color: rgba(255,255,255,0.8);
+    line-height: 1.65; font-weight: 400;
+}
 
 /* ============================================
-   SERVICES
+   SERVICES — фон прозрачный, карточки белые
    ============================================ */
-.services { padding: 100px 0; background: var(--white); position: relative; overflow: hidden; }
+.services { padding: 100px 0; position: relative; overflow: hidden; background: transparent; }
 .services-blob {
     position: absolute; top: -100px; right: -100px; width: 400px; height: 400px;
-    background: radial-gradient(circle, var(--coral-light) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
     pointer-events: none; opacity: 0.6;
 }
 .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 
 .service-card {
     position: relative; padding: 28px 24px;
-    background: linear-gradient(180deg, var(--white) 0%, var(--teal-50) 100%);
-    border: 1px solid var(--slate-100); border-radius: var(--r-lg);
-    transition: var(--t-slow); overflow: hidden;
+    background: var(--bg-surface);
+    border: 1px solid var(--slate-100);
+    border-radius: var(--r-lg);
+    transition: var(--t-slow);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 .service-card::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -512,12 +542,12 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 .service-card p { font-size: 0.85rem; color: var(--slate-500); line-height: 1.6; font-weight: 400; }
 
 /* ============================================
-   ABOUT
+   ABOUT — фон прозрачный, блоки белые
    ============================================ */
-.about { padding: 100px 0; background: var(--slate-50); position: relative; overflow: hidden; }
+.about { padding: 100px 0; position: relative; overflow: hidden; background: transparent; }
 .about-blob {
     position: absolute; bottom: -100px; left: -100px; width: 400px; height: 400px;
-    background: radial-gradient(circle, var(--purple-light) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
     pointer-events: none; opacity: 0.5;
 }
 .about-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
@@ -537,7 +567,7 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 .about-placeholder span { font-size: 0.78rem; font-weight: 600; color: var(--teal-500); }
 
 .about-float-card {
-    position: absolute; bottom: -16px; right: -16px; background: var(--white);
+    position: absolute; bottom: -16px; right: -16px; background: var(--bg-surface);
     padding: 16px 22px; border-radius: var(--r-lg);
     box-shadow: var(--shadow-lg), var(--shadow-glow-sm); text-align: center; border: 1px solid var(--teal-100);
 }
@@ -548,19 +578,37 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 }
 .about-float-text { font-size: 0.7rem; font-weight: 600; color: var(--slate-500); text-transform: uppercase; letter-spacing: 0.05em; }
 
-.about-content .section-title { text-align: left; margin-bottom: 24px; }
+/* Контент about — белый блок */
+.about-content {
+    background: var(--bg-surface);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+}
+.about-content .section-title {
+    color: var(--slate-900);  /* заголовок внутри белого блока — тёмный */
+    text-align: left;
+    margin-bottom: 24px;
+}
+.about-content .section-label {
+    color: var(--teal-700);
+    background: var(--teal-50);
+    border-color: var(--teal-100);
+}
 .about-content p { font-size: 0.95rem; color: var(--slate-500); line-height: 1.75; margin-bottom: 14px; font-weight: 400; }
 .about-content blockquote {
     font-family: 'Montserrat', sans-serif; font-size: 1.05rem; font-weight: 600; font-style: italic;
-    color: var(--teal-700); padding: 24px 28px; background: var(--white);
+    color: var(--teal-700); padding: 24px 28px; background: var(--teal-50);
     border-radius: var(--r-lg); margin: 24px 0; line-height: 1.55;
     border-left: 4px solid var(--teal-500); box-shadow: var(--shadow-sm);
 }
 
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 32px; }
 .stat {
-    padding: 18px 16px; background: var(--white); border: 1px solid var(--slate-100);
-    border-radius: var(--r-md); text-align: center; transition: var(--t);
+    padding: 18px 16px; background: var(--bg-surface);
+    border: 1px solid var(--slate-100); border-radius: var(--r-md);
+    text-align: center; transition: var(--t);
+    box-shadow: var(--shadow-xs);
 }
 .stat:hover { border-color: var(--teal-200); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
 .stat-number {
@@ -583,20 +631,21 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 .stat-blue .stat-number { background: var(--gradient-blue); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
 /* ============================================
-   GALLERY
+   GALLERY — фон прозрачный, табы белые/прозрачные
    ============================================ */
-.gallery { padding: 100px 0; background: var(--white); position: relative; overflow: hidden; }
+.gallery { padding: 100px 0; position: relative; overflow: hidden; background: transparent; }
 .gallery-blob {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 500px; height: 500px;
-    background: radial-gradient(circle, var(--gold-light) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
     pointer-events: none; opacity: 0.4;
 }
 .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
 .gallery-item {
     position: relative; border-radius: var(--r-lg); overflow: hidden;
-    aspect-ratio: 1; background: linear-gradient(135deg, var(--slate-100), var(--slate-50));
+    aspect-ratio: 1; background: var(--bg-surface);
     transition: var(--t-slow); cursor: pointer;
+    box-shadow: var(--shadow-sm);
 }
 .gallery-item-wide { grid-column: span 2; aspect-ratio: 2/1; }
 .gallery-item:hover { transform: scale(1.03) translateY(-4px); box-shadow: var(--shadow-lg); }
@@ -615,7 +664,7 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 .gallery-placeholder span { font-size: 0.72rem; font-weight: 600; }
 
 /* ============================================
-   GALLERY TABS
+   GALLERY TABS — прозрачные на бирюзовом
    ============================================ */
 .gallery-tabs-wrap {
     display: flex;
@@ -625,10 +674,10 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
 .gallery-tabs {
     display: flex;
     gap: 8px;
-    background: var(--slate-50);
+    background: rgba(255,255,255,0.15);
     padding: 6px;
     border-radius: var(--r-full);
-    border: 1px solid var(--slate-200);
+    border: 1px solid rgba(255,255,255,0.2);
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -639,57 +688,39 @@ body.dark-theme .theme-toggle .moon-icon { opacity: 1; transform: scale(1); }
     font-family: 'Montserrat', sans-serif;
     font-size: 0.85rem;
     font-weight: 700;
-    color: var(--slate-500);
+    color: rgba(255,255,255,0.7);
     background: transparent;
     cursor: pointer;
     transition: var(--t);
     white-space: nowrap;
 }
 .gallery-tab:hover {
-    background: var(--white);
-    color: var(--slate-700);
-    box-shadow: var(--shadow-sm);
+    background: rgba(255,255,255,0.2);
+    color: #ffffff;
 }
 .gallery-tab.active {
-    background: var(--white);
-    color: var(--teal-700);
-    box-shadow: 0 2px 12px rgba(13,148,136,0.15);
-}
-
-/* Dark theme для табов */
-body.dark-theme .gallery-tabs {
-    background: #4a4a4a;
-    border-color: rgba(255,255,255,0.08);
-}
-body.dark-theme .gallery-tab {
-    color: rgba(255,255,255,0.5);
-}
-body.dark-theme .gallery-tab:hover {
-    background: #525252;
-    color: #fff;
-}
-body.dark-theme .gallery-tab.active {
-    background: #525252;
-    color: var(--teal-300);
-    box-shadow: 0 2px 12px rgba(13,148,136,0.2);
-}
-
-/* Moreworks tabs */
-.moreworks-tabs {
-    margin-bottom: 40px;
+    background: rgba(255,255,255,0.3);
+    color: #ffffff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 }
 
 /* ============================================
-   CONTACT
+   CONTACT — фон прозрачный, блоки белые
    ============================================ */
-.contact { padding: 100px 0; background: var(--slate-50); position: relative; overflow: hidden; }
+.contact { padding: 100px 0; position: relative; overflow: hidden; background: transparent; }
 .contact-blob {
     position: absolute; bottom: -100px; right: -100px; width: 400px; height: 400px;
-    background: radial-gradient(circle, var(--blue-light) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
     pointer-events: none; opacity: 0.5;
 }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
 
+.contact-info, .contact-form-wrap {
+    background: var(--bg-surface);
+    border-radius: var(--r-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-md);
+}
 .contact-info h3, .contact-form-wrap h3 {
     font-family: 'Montserrat', sans-serif; font-size: 1.15rem; font-weight: 700;
     margin-bottom: 12px; color: var(--slate-900);
@@ -699,8 +730,10 @@ body.dark-theme .gallery-tab.active {
 .contact-links { display: flex; flex-direction: column; gap: 12px; }
 .contact-link {
     display: flex; align-items: center; gap: 12px; padding: 14px 18px;
-    background: var(--white); border: 1.5px solid var(--slate-100);
-    border-radius: var(--r-md); text-decoration: none; color: var(--slate-700);
+    background: var(--slate-50);
+    border: 1.5px solid var(--slate-100);
+    border-radius: var(--r-md);
+    text-decoration: none; color: var(--slate-700);
     font-weight: 600; font-size: 0.9rem; transition: var(--t); position: relative;
 }
 .contact-link:hover { border-color: var(--teal-200); background: var(--teal-50); transform: translateX(6px); box-shadow: var(--shadow-sm); }
@@ -724,10 +757,6 @@ body.dark-theme .gallery-tab.active {
     color: var(--slate-400); opacity: 0.8;
 }
 
-.contact-form-wrap {
-    background: var(--white); padding: 28px; border-radius: var(--r-xl);
-    border: 1px solid var(--slate-100); box-shadow: var(--shadow-sm);
-}
 .contact-note {
     display: flex; gap: 12px; padding: 16px 18px;
     background: var(--teal-50); border-radius: var(--r-md);
@@ -737,7 +766,7 @@ body.dark-theme .gallery-tab.active {
 .contact-note svg { flex-shrink: 0; color: var(--teal-500); margin-top: 2px; }
 
 /* ============================================
-   FOOTER
+   FOOTER — бирюзовый (оставляем)
    ============================================ */
 .footer {
     padding: 32px 0; background: var(--gradient-footer); color: var(--teal-100);
@@ -764,7 +793,7 @@ body.dark-theme .gallery-tab.active {
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE (без изменений)
    ============================================ */
 @media (max-width: 1024px) {
     .services-grid { grid-template-columns: repeat(2, 1fr); }
@@ -784,9 +813,11 @@ body.dark-theme .gallery-tab.active {
         transition: var(--t-slow); box-shadow: var(--shadow-lg);
     }
     .nav.open { transform: translateY(0); opacity: 1; pointer-events: all; }
-    .nav a { padding: 14px 0; font-size: 1rem; border-bottom: 1px solid var(--slate-100); }
-    .nav a:last-child { border-bottom: none; }
+    .nav a { padding: 14px 0; font-size: 1rem; border-bottom: 1px solid var(--slate-100); color: var(--slate-700); }
+    .nav a::after { background: var(--teal-500); }
+    .nav a:hover { color: var(--teal-600); }
     .menu-toggle { display: flex; }
+    .menu-toggle span { background: var(--slate-700); }
     .hero { padding: 130px 0 80px; min-height: auto; }
     .hero-badges { flex-direction: column; align-items: flex-start; }
     .services-grid { grid-template-columns: 1fr; }
@@ -814,9 +845,8 @@ body.dark-theme .gallery-tab.active {
     .theme-toggle { width: 34px; height: 34px; }
 }
 
-
 /* ============================================
-   DYNAMIC IMAGES
+   DYNAMIC IMAGES (без изменений)
    ============================================ */
 .gallery-item img {
     width: 100%;
@@ -842,9 +872,8 @@ body.dark-theme .gallery-tab.active {
     flex-shrink: 0;
 }
 
-
 /* ============================================
-   COPY TOOLTIP
+   COPY TOOLTIP (без изменений)
    ============================================ */
 .contact-link-email { position: relative; }
 .copy-tooltip {
@@ -872,9 +901,8 @@ body.dark-theme .copy-tooltip {
     color: #3C3C3C;
 }
 
-
 /* ============================================
-   GALLERY MORE BUTTON
+   GALLERY MORE BUTTON (без изменений)
    ============================================ */
 .gallery-more-wrap {
     display: flex;
@@ -902,11 +930,11 @@ body.dark-theme .gallery-more-btn {
 }
 
 /* ============================================
-   MOREWORKS PAGE
+   MOREWORKS PAGE (без изменений)
    ============================================ */
 .moreworks-section {
     padding: 120px 0 60px;
-    background: var(--white);
+    background: transparent;
     position: relative;
     overflow: hidden;
     min-height: 100vh;
@@ -917,7 +945,7 @@ body.dark-theme .gallery-more-btn {
     right: -100px;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, var(--teal-100) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
     pointer-events: none;
     opacity: 0.4;
 }
@@ -929,10 +957,11 @@ body.dark-theme .gallery-more-btn {
 .moreworks-item {
     border-radius: var(--r-lg);
     overflow: hidden;
-    background: var(--slate-50);
+    background: var(--bg-surface);
     border: 1px solid var(--slate-200);
     transition: var(--t);
     position: relative;
+    box-shadow: var(--shadow-sm);
 }
 .moreworks-item:hover {
     transform: translateY(-6px);
@@ -950,7 +979,7 @@ body.dark-theme .gallery-more-btn {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: var(--white);
+    background: var(--bg-surface);
 }
 .moreworks-num {
     font-size: 0.65rem;
@@ -986,6 +1015,7 @@ body.dark-theme .gallery-more-btn {
     color: var(--slate-400);
 }
 
+/* Dark theme для moreworks (уже есть, оставляем) */
 body.dark-theme .moreworks-section {
     background: #3C3C3C;
 }
@@ -1026,9 +1056,8 @@ body.dark-theme .moreworks-empty svg {
     }
 }
 
-
 /* ============================================
-   GALLERY SWITCH ANIMATION
+   GALLERY SWITCH ANIMATION (без изменений)
    ============================================ */
 .gallery-grid, .moreworks-grid {
     transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
