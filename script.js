@@ -1,7 +1,6 @@
 // ============================================
-// Людмила Краусе — Художник, преподаватель
-// Montserrat | Бирюзовый + цвета | RU/DE | Тёмная тема
-// Фото: IndexedDB + статические fallback (из /images)
+// Людмила Краусе — Premium Landing Page
+// Inter + Playfair Display | Turquoise #00D7C8 | RU/DE | Dark Theme
 // ============================================
 
 const translations = {
@@ -10,7 +9,10 @@ const translations = {
         title: 'Людмила Краусе — Художник, преподаватель, арт-терапевт',
         nav_about: 'Обо мне',
         nav_services: 'Услуги',
+        nav_video: 'Видео',
         nav_gallery: 'Галерея',
+        nav_testimonials: 'Отзывы',
+        nav_faq: 'FAQ',
         nav_contact: 'Контакты',
         btn_contact: 'Связаться',
         hero_badge: 'Художник с 20-летним стажем',
@@ -20,6 +22,7 @@ const translations = {
         badge_2: 'Онлайн и офлайн',
         badge_3: 'Для детей и взрослых',
         btn_cta: 'Записаться на занятие',
+        btn_secondary: 'Посмотреть урок',
         services_label: 'Услуги',
         services_title: 'Чем я занимаюсь',
         services_subtitle: 'Уроки рисования, терапевтические практики и консультации для детей и взрослых',
@@ -49,6 +52,9 @@ const translations = {
         float_years: 'лет опыта',
         photo_placeholder: 'Фото художника',
         stat_1: 'лет творческого опыта',
+        stat_students: 'учеников прошли обучение',
+        stat_satisfaction: 'довольных клиентов',
+        stat_reviews: 'положительных отзывов',
         stat_2: 'лет — возраст учеников',
         stat_3: 'направления искусства',
         stat_4: 'языки консультаций',
@@ -64,6 +70,37 @@ const translations = {
         work_4: 'Работа 4',
         work_5: 'Работа 5',
         work_6: 'Работа 6',
+        video_label: 'Демонстрация',
+        video_title: 'Посмотрите, как проходят онлайн-уроки',
+        video_subtitle: 'Погрузитесь в атмосферу творческого процесса и увидьте, как дети раскрывают свой потенциал',
+        video_duration: '2:45',
+        video_info_title: 'Онлайн-урок рисования для детей',
+        video_info_desc: 'Занятие проходит в уютной и дружелюбной атмосфере. Каждый ребёнок получает индивидуальное внимание и поддержку.',
+        testimonials_label: 'Отзывы',
+        testimonials_title: 'Что говорят родители и ученики',
+        testimonials_subtitle: 'Истории семей, которые открыли для себя мир творчества',
+        review_1_text: 'Моя дочь занимается с Милой уже полгода. За это время она научилась рисовать акварелью и стала намного увереннее в себе. Индивидуальный подход — это не просто слова, а реальная практика.',
+        review_1_name: 'Анна К.',
+        review_1_role: 'Мама ученицы, 8 лет',
+        review_2_text: 'Арт-терапия помогла моему сыну справиться со стрессом после переезда. Мила создаёт невероятно тёплую атмосферу, где ребёнок чувствует себя в безопасности.',
+        review_2_name: 'Ольга М.',
+        review_2_role: 'Мама ученика, 10 лет',
+        review_3_text: 'Нейрографика онлайн — это просто волшебство. После нескольких занятий я смогла разобраться в сложной жизненной ситуации и найти выход. Рекомендую всем!',
+        review_3_name: 'Ирина В.',
+        review_3_role: 'Взрослая ученица',
+        faq_label: 'Вопросы и ответы',
+        faq_title: 'Часто задаваемые вопросы',
+        faq_subtitle: 'Всё, что нужно знать перед первым занятием',
+        faq_1_q: 'С какого возраста можно начинать занятия?',
+        faq_1_a: 'Я работаю с детьми от 5 лет. Для самых маленьких разработана специальная программа, которая помогает развивать мелкую моторику, цветовосприятие и воображение через игровые техники.',
+        faq_2_q: 'Нужен ли опыт рисования?',
+        faq_2_a: 'Нет, опыт не требуется. Я работаю с детьми любого уровня подготовки — от тех, кто впервые берёт кисть, до юных художников, готовящих портфолио.',
+        faq_3_q: 'Как проходят онлайн-занятия?',
+        faq_3_a: 'Онлайн-уроки проходят через Zoom или Google Meet. Я показываю техники на камеру, даю обратную связь в реальном времени и помогаю на каждом этапе работы. Всё, что нужно — бумага, карандаши и стабильный интернет.',
+        faq_4_q: 'Что нужно принести на первое занятие?',
+        faq_4_a: 'На первое занятие ничего не нужно — все материалы предоставляются. После консультации я подскажу, что приобрести для домашних занятий.',
+        faq_5_q: 'Сколько длится один урок?',
+        faq_5_a: 'Стандартный урок длится 60 минут. Для детей 5–7 лет рекомендую 45-минутные занятия, чтобы сохранить концентрацию и интерес.',
         contact_label: 'Контакты',
         contact_title: 'Свяжитесь со мной',
         contact_subtitle: 'Запишитесь на пробное занятие, задайте вопрос или узнайте больше об услугах',
@@ -72,9 +109,15 @@ const translations = {
         form_title: 'Записаться на занятие',
         form_text: 'Напишите мне в Telegram или WhatsApp, и мы договоримся о времени и формате.',
         form_note: 'Занятия проходят в Ойскирхене или онлайн. Первое знакомство — возможно в формате консультации, чтобы выбрать подходящий формат.',
+        btn_telegram: 'Написать в Telegram',
+        btn_whatsapp: 'Написать в WhatsApp',
         footer_text: '© 2026 Людмила Краусе. Все права защищены.',
+        footer_desc: 'Художник, преподаватель и арт-терапевт с 20-летним опытом. Помогаю детям и взрослым раскрыть творческий потенциал.',
+        footer_nav_title: 'Навигация',
+        footer_contact_title: 'Контакты',
+        footer_location: 'Ойскирхен, Германия',
         gallery_more: 'Больше работ',
-        moreworks_title: 'Все работы — Людмила Краусе',
+        moreworks_title: 'Все работы — Людмила Краузе',
         moreworks_heading: 'Все работы',
         moreworks_subtitle: 'Полная коллекция работ и ученических проектов',
         moreworks_empty: 'Пока нет загруженных работ'
@@ -84,7 +127,10 @@ const translations = {
         title: 'Ljudmila Krause — Künstlerin, Lehrerin, Kunsttherapeutin',
         nav_about: 'Über mich',
         nav_services: 'Leistungen',
+        nav_video: 'Video',
         nav_gallery: 'Galerie',
+        nav_testimonials: 'Bewertungen',
+        nav_faq: 'FAQ',
         nav_contact: 'Kontakt',
         btn_contact: 'Kontakt',
         hero_badge: 'Künstlerin mit 20 Jahren Erfahrung',
@@ -94,6 +140,7 @@ const translations = {
         badge_2: 'Online und Offline',
         badge_3: 'Für Kinder und Erwachsene',
         btn_cta: 'Termin vereinbaren',
+        btn_secondary: 'Unterricht ansehen',
         services_label: 'Leistungen',
         services_title: 'Was ich anbiete',
         services_subtitle: 'Zeichenunterricht, therapeutische Praktiken und Beratungen für Kinder und Erwachsene',
@@ -123,6 +170,9 @@ const translations = {
         float_years: 'Jahre Erfahrung',
         photo_placeholder: 'Foto der Künstlerin',
         stat_1: 'Jahre kreative Erfahrung',
+        stat_students: 'Schüler haben Unterricht genommen',
+        stat_satisfaction: 'zufriedene Kunden',
+        stat_reviews: 'positive Bewertungen',
         stat_2: 'Jahre — Altersgruppe der Schüler',
         stat_3: 'Kunstrichtungen',
         stat_4: 'Beratungssprachen',
@@ -138,6 +188,37 @@ const translations = {
         work_4: 'Werk 4',
         work_5: 'Werk 5',
         work_6: 'Werk 6',
+        video_label: 'Demonstration',
+        video_title: 'Sehen Sie, wie Online-Unterricht abläuft',
+        video_subtitle: 'Tauchen Sie ein in die Atmosphäre des kreativen Prozesses und sehen Sie, wie Kinder ihr Potenzial entfalten',
+        video_duration: '2:45',
+        video_info_title: 'Online-Zeichenunterricht für Kinder',
+        video_info_desc: 'Der Unterricht findet in einer gemütlichen und freundlichen Atmosphäre statt. Jedes Kind erhält individuelle Aufmerksamkeit und Unterstützung.',
+        testimonials_label: 'Bewertungen',
+        testimonials_title: 'Was Eltern und Schüler sagen',
+        testimonials_subtitle: 'Geschichten von Familien, die die Welt der Kreativität für sich entdeckt haben',
+        review_1_text: 'Meine Tochter lernt jetzt seit einem halben Jahr bei Mila. In dieser Zeit hat sie gelernt, mit Aquarell zu malen, und ist viel selbstbewusster geworden. Individueller Ansatz ist nicht nur ein Wort, sondern echte Praxis.',
+        review_1_name: 'Anna K.',
+        review_1_role: 'Mutter einer Schülerin, 8 Jahre',
+        review_2_text: 'Kunsttherapie hat meinem Sohn geholfen, mit dem Stress nach dem Umzug fertigzuwerden. Mila schafft eine unglaublich warme Atmosphäre, in der sich das Kind sicher fühlt.',
+        review_2_name: 'Olga M.',
+        review_2_role: 'Mutter eines Schülers, 10 Jahre',
+        review_3_text: 'Neurographik online ist einfach Magie. Nach einigen Sitzungen konnte ich eine komplizierte Lebenssituation verstehen und einen Ausweg finden. Ich empfehle es allen!',
+        review_3_name: 'Irina W.',
+        review_3_role: 'Erwachsene Schülerin',
+        faq_label: 'Fragen und Antworten',
+        faq_title: 'Häufig gestellte Fragen',
+        faq_subtitle: 'Alles, was Sie vor der ersten Stunde wissen müssen',
+        faq_1_q: 'Ab welchem Alter kann man mit dem Unterricht beginnen?',
+        faq_1_a: 'Ich arbeite mit Kindern ab 5 Jahren. Für die Kleinsten wurde ein spezielles Programm entwickelt, das durch spielerische Techniken die Feinmotorik, das Farbempfinden und die Fantasie fördert.',
+        faq_2_q: 'Ist Zeichenerfahrung erforderlich?',
+        faq_2_a: 'Nein, Erfahrung ist nicht erforderlich. Ich arbeite mit Kindern jeden Vorbereitungsstands — von denen, die zum ersten Mal einen Pinsel halten, bis zu jungen Künstlern, die ein Portfolio vorbereiten.',
+        faq_3_q: 'Wie laufen Online-Stunden ab?',
+        faq_3_a: 'Online-Unterricht findet über Zoom oder Google Meet statt. Ich zeige Techniken vor der Kamera, gebe Echtzeit-Feedback und helfe bei jedem Arbeitsschritt. Alles, was Sie brauchen, ist Papier, Bleistifte und stabiles Internet.',
+        faq_4_q: 'Was muss ich zur ersten Stunde mitbringen?',
+        faq_4_a: 'Zur ersten Stunde müssen Sie nichts mitbringen — alle Materialien werden gestellt. Nach der Beratung gebe ich Tipps, was für das Üben zu Hause gekauft werden sollte.',
+        faq_5_q: 'Wie lange dauert eine Stunde?',
+        faq_5_a: 'Eine Standardstunde dauert 60 Minuten. Für Kinder von 5–7 Jahren empfehle ich 45-minütige Einheiten, um Konzentration und Interesse zu bewahren.',
         contact_label: 'Kontakt',
         contact_title: 'Kontaktieren Sie mich',
         contact_subtitle: 'Vereinbaren Sie eine Probestunde, stellen Sie eine Frage oder erfahren Sie mehr über meine Leistungen',
@@ -146,7 +227,13 @@ const translations = {
         form_title: 'Termin vereinbaren',
         form_text: 'Schreiben Sie mir auf Telegram oder WhatsApp, und wir vereinbaren Zeit und Format.',
         form_note: 'Der Unterricht findet in Euskirchen oder online statt. Das erste Kennenlernen kann als Beratung erfolgen, um das passende Format zu wählen.',
+        btn_telegram: 'Auf Telegram schreiben',
+        btn_whatsapp: 'Auf WhatsApp schreiben',
         footer_text: '© 2026 Ljudmila Krause. Alle Rechte vorbehalten.',
+        footer_desc: 'Künstlerin, Lehrerin und Kunsttherapeutin mit 20 Jahren Erfahrung. Ich helfe Kindern und Erwachsenen, ihr kreatives Potenzial zu entfalten.',
+        footer_nav_title: 'Navigation',
+        footer_contact_title: 'Kontakt',
+        footer_location: 'Euskirchen, Deutschland',
         gallery_more: 'Mehr Werke',
         moreworks_title: 'Alle Werke — Ljudmila Krause',
         moreworks_heading: 'Alle Werke',
@@ -164,7 +251,6 @@ const DB_NAME = 'MilaKrauseDB';
 const DB_VERSION = 2;
 const IS_MOREWORKS = location.pathname.includes('moreworks');
 
-// Статические файлы для fallback (если в IndexedDB пусто)
 const STATIC_FILES = {
     personal: [
         { name: '1s.jpg', wide: true },
@@ -192,7 +278,6 @@ const STATIC_FILES = {
     ]
 };
 
-// Статическое фото для раздела "Обо мне" — путь без ведущего слеша
 const STATIC_ABOUT_PHOTO = 'images/main.jpg';
 
 // ============================================
@@ -200,16 +285,10 @@ const STATIC_ABOUT_PHOTO = 'images/main.jpg';
 // ============================================
 function openDB() {
     return new Promise((resolve, reject) => {
-        if (db && db.name === DB_NAME) {
-            resolve(db);
-            return;
-        }
+        if (db && db.name === DB_NAME) { resolve(db); return; }
         const request = indexedDB.open(DB_NAME, DB_VERSION);
         request.onerror = () => reject(request.error);
-        request.onsuccess = () => {
-            db = request.result;
-            resolve(db);
-        };
+        request.onsuccess = () => { db = request.result; resolve(db); };
         request.onupgradeneeded = (e) => {
             const database = e.target.result;
             if (!database.objectStoreNames.contains('photos')) {
@@ -282,7 +361,7 @@ function fileToBase64(file) {
 }
 
 // ============================================
-// Render Gallery (главная)
+// Render Gallery (main page)
 // ============================================
 async function renderGallery() {
     const grid = document.getElementById('galleryGrid');
@@ -335,7 +414,6 @@ async function renderGalleryItems() {
         try { items = await getGallery(currentGalleryCategory); } catch(e) { console.warn('Gallery load error:', e); }
     }
 
-    // Если в IndexedDB нет фото — используем статические файлы
     const staticItems = STATIC_FILES[currentGalleryCategory] || [];
     const hasStatic = staticItems.length > 0;
 
@@ -344,7 +422,6 @@ async function renderGalleryItems() {
             const div = document.createElement('div');
             div.className = 'gallery-item' + (file.wide ? ' gallery-item-wide' : '');
             const img = document.createElement('img');
-            // Путь без ведущего слеша
             img.src = `images/${file.name}`;
             img.alt = `Работа ${index + 1}`;
             img.style.width = '100%';
@@ -429,7 +506,6 @@ async function renderGalleryItems() {
         return;
     }
 
-    // Если нет ни статики, ни данных из IndexedDB — показываем плейсхолдеры
     const defaults = [
         { wide: true }, { wide: false }, { wide: false },
         { wide: false }, { wide: false }, { wide: true }
@@ -453,7 +529,7 @@ async function renderGalleryItems() {
 }
 
 // ============================================
-// Render About Photo (с fallback на main.jpg)
+// Render About Photo
 // ============================================
 async function renderAboutPhoto() {
     const frame = document.getElementById('aboutFrame');
@@ -461,16 +537,11 @@ async function renderAboutPhoto() {
 
     let photo = null;
     if (db) {
-        try { 
-            photo = await getAboutPhoto(); 
-        } catch(e) { 
-            console.warn('About photo load error:', e); 
-        }
+        try { photo = await getAboutPhoto(); } catch(e) { console.warn('About photo load error:', e); }
     }
     const t = translations[currentLang];
     const alt = currentLang === 'ru' ? 'Фото художника' : 'Foto der Künstlerin';
 
-    // Если есть фото в IndexedDB — используем его
     if (photo && photo.data) {
         const img = document.createElement('img');
         img.src = photo.data;
@@ -496,7 +567,6 @@ async function renderAboutPhoto() {
         return;
     }
 
-    // Если нет в IndexedDB — пробуем загрузить main.jpg
     const img = document.createElement('img');
     img.src = STATIC_ABOUT_PHOTO;
     img.alt = alt;
@@ -581,7 +651,6 @@ async function renderMoreWorksItems() {
             div.className = 'moreworks-item';
             const alt = translations[currentLang]['work_' + (idx + 1)] || ('Работа ' + (idx + 1));
             const img = document.createElement('img');
-            // Путь без ведущего слеша
             img.src = `images/${file.name}`;
             img.alt = alt;
             img.loading = 'lazy';
@@ -590,7 +659,7 @@ async function renderMoreWorksItems() {
             img.style.objectFit = 'cover';
             img.onerror = function() {
                 this.parentElement.innerHTML = `
-                    <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--slate-400);">
+                    <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--gray-400);">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;">
                             <rect x="3" y="3" width="18" height="18" rx="2"/>
                             <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -636,7 +705,7 @@ async function renderMoreWorksItems() {
             img.style.objectFit = 'cover';
             img.onerror = function() {
                 this.parentElement.innerHTML = `
-                    <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--slate-400);">
+                    <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--gray-400);">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;">
                             <rect x="3" y="3" width="18" height="18" rx="2"/>
                             <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -659,7 +728,7 @@ async function renderMoreWorksItems() {
             div.appendChild(caption);
         } else {
             div.innerHTML = `
-                <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--slate-400);">
+                <div class="moreworks-placeholder" style="padding:40px;text-align:center;color:var(--gray-400);">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:0.5;">
                         <rect x="3" y="3" width="18" height="18" rx="2"/>
                         <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -673,6 +742,96 @@ async function renderMoreWorksItems() {
             `;
         }
         grid.appendChild(div);
+    });
+}
+
+// ============================================
+// Animated Counters
+// ============================================
+function animateCounter(el) {
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(eased * target);
+        el.textContent = current + suffix;
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    requestAnimationFrame(update);
+}
+
+// ============================================
+// Scroll Animations (Intersection Observer)
+// ============================================
+function initScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // Trigger counter animation if it's a stat number
+                const counter = entry.target.querySelector('.stat-number[data-count]');
+                if (counter && !counter.dataset.animated) {
+                    counter.dataset.animated = 'true';
+                    animateCounter(counter);
+                }
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('[data-animate]').forEach(el => {
+        observer.observe(el);
+    });
+}
+
+// ============================================
+// FAQ Accordion
+// ============================================
+function initFAQ() {
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+
+            // Close all others
+            document.querySelectorAll('.faq-item.open').forEach(openItem => {
+                if (openItem !== item) openItem.classList.remove('open');
+            });
+
+            // Toggle current
+            item.classList.toggle('open', !isOpen);
+        });
+    });
+}
+
+// ============================================
+// Video Play Button
+// ============================================
+function initVideoPlayer() {
+    const playBtn = document.getElementById('videoPlayBtn');
+    const preview = document.getElementById('videoPreview');
+    if (!playBtn || !preview) return;
+
+    const handler = () => {
+        // Replace preview with embedded video (placeholder behavior)
+        // In production, replace with actual video embed
+        alert(currentLang === 'ru' 
+            ? 'Видео будет доступно после загрузки. Здесь можно встроить YouTube/Vimeo плеер.' 
+            : 'Video wird nach dem Upload verfügbar sein. Hier kann ein YouTube/Vimeo-Player eingebettet werden.');
+    };
+
+    playBtn.addEventListener('click', handler);
+    preview.addEventListener('click', (e) => {
+        if (e.target !== playBtn && !playBtn.contains(e.target)) {
+            handler();
+        }
     });
 }
 
@@ -776,6 +935,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     } else {
         await renderGallery();
         await renderAboutPhoto();
+        initScrollAnimations();
+        initFAQ();
+        initVideoPlayer();
     }
 
     const savedLang = localStorage.getItem('lang');
