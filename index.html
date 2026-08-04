@@ -6,30 +6,21 @@
     <title data-i18n="title">Людмила Краусе — Художник, преподаватель, арт-терапевт</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Background Glows -->
-    <div class="bg-glow bg-glow-left"></div>
-    <div class="bg-glow bg-glow-right"></div>
-
     <!-- Header -->
     <header class="header" id="header">
         <div class="container header-inner">
             <a href="#" class="logo">
-                <div class="logo-mark">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-                </div>
+                <img src="images/logo.jpg" alt="Logo" class="logo-img" id="logoImg" onerror="this.style.display='none'">
                 <span class="logo-text" data-i18n="logo">Мила Краузе</span>
             </a>
             <nav class="nav" id="nav">
                 <a href="#about" data-i18n="nav_about">Обо мне</a>
                 <a href="#services" data-i18n="nav_services">Услуги</a>
-                <a href="#video" data-i18n="nav_video">Видео</a>
                 <a href="#gallery" data-i18n="nav_gallery">Галерея</a>
-                <a href="#testimonials" data-i18n="nav_testimonials">Отзывы</a>
-                <a href="#faq" data-i18n="nav_faq">FAQ</a>
                 <a href="#contact" data-i18n="nav_contact">Контакты</a>
             </nav>
             <div class="header-right">
@@ -56,34 +47,31 @@
     </header>
 
     <!-- Hero -->
-    <section class="hero" id="hero">
-        <div class="hero-shape hero-shape-1"></div>
-        <div class="hero-shape hero-shape-2"></div>
-        <div class="hero-shape hero-shape-3"></div>
-        <div class="hero-dots"></div>
+    <section class="hero">
+        <div class="hero-gradient"></div>
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+        <div class="hero-pattern"></div>
         <div class="container">
             <div class="hero-content">
                 <div class="hero-badge" data-i18n="hero_badge">Художник с 20-летним стажем</div>
                 <h1 class="hero-title" data-i18n="hero_title">Раскрываю талант каждого ребёнка через творчество</h1>
                 <p class="hero-text" data-i18n="hero_text">Художественные занятия для детей, арт-терапия, нейрографика и консультации по астрогенетике. Работаю в Ойскирхене и онлайн с русско- и украиноязычными семьями в Германии и за рубежом.</p>
-                <div class="hero-actions">
-                    <a href="#contact" class="btn btn-primary" data-i18n="btn_cta">Записаться на занятие</a>
-                    <a href="#video" class="btn btn-secondary" data-i18n="btn_secondary">Посмотреть урок</a>
-                </div>
                 <div class="hero-badges">
-                    <div class="badge">
+                    <div class="badge badge-coral">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                         <span data-i18n="badge_1">Индивидуальный подход</span>
                     </div>
-                    <div class="badge">
+                    <div class="badge badge-purple">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         <span data-i18n="badge_2">Онлайн и офлайн</span>
                     </div>
-                    <div class="badge">
+                    <div class="badge badge-gold">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                         <span data-i18n="badge_3">Для детей и взрослых</span>
                     </div>
                 </div>
+                <a href="#contact" class="btn btn-primary" data-i18n="btn_cta">Записаться на занятие</a>
             </div>
         </div>
         <div class="hero-scroll">
@@ -91,47 +79,12 @@
         </div>
     </section>
 
-    <!-- Statistics -->
-    <section class="statistics" id="statistics">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card" data-animate>
-                    <div class="stat-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    </div>
-                    <div class="stat-number" data-count="20" data-suffix="+">0</div>
-                    <div class="stat-label" data-i18n="stat_1">лет творческого опыта</div>
-                </div>
-                <div class="stat-card" data-animate>
-                    <div class="stat-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    </div>
-                    <div class="stat-number" data-count="500" data-suffix="+">0</div>
-                    <div class="stat-label" data-i18n="stat_students">учеников прошли обучение</div>
-                </div>
-                <div class="stat-card" data-animate>
-                    <div class="stat-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                    </div>
-                    <div class="stat-number" data-count="98" data-suffix="%">0</div>
-                    <div class="stat-label" data-i18n="stat_satisfaction">довольных клиентов</div>
-                </div>
-                <div class="stat-card" data-animate>
-                    <div class="stat-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    </div>
-                    <div class="stat-number" data-count="150" data-suffix="+">0</div>
-                    <div class="stat-label" data-i18n="stat_reviews">положительных отзывов</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- About -->
     <section class="about" id="about">
+        <div class="about-blob"></div>
         <div class="container">
             <div class="about-grid">
-                <div class="about-visual" data-animate="left">
+                <div class="about-visual">
                     <div class="about-frame" id="aboutFrame">
                         <div class="about-placeholder">
                             <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -143,24 +96,28 @@
                         <span class="about-float-text" data-i18n="float_years">лет опыта</span>
                     </div>
                 </div>
-                <div class="about-content" data-animate="right">
+                <div class="about-content">
                     <span class="section-label" data-i18n="about_label">Обо мне</span>
                     <h2 class="section-title" data-i18n="about_title">Творчество как путь к себе</h2>
                     <p data-i18n="about_p1">Я художник с 20-летним стажем. Верю, что каждый ребёнок талантлив по-своему, и моя задача — помочь этот талант раскрыть. Учу детей рисовать карандашом, акрилом, маслом на холсте, развиваю творческое мышление и уверенность в себе.</p>
                     <p data-i18n="about_p2">Помимо изобразительного искусства, я провожу арт-терапевтические занятия и нейрографику для детей и взрослых, помогаю снять стресс через творчество. Для родителей раскрываю планетарный потенциал детей по дате рождения.</p>
                     <blockquote data-i18n="quote">«Каждый ребёнок талантлив по-своему, и я готова помочь раскрыть его потенциал.»</blockquote>
-                    <div class="about-stats-mini">
-                        <div class="about-stat">
-                            <span class="about-stat-num">5–15</span>
-                            <span class="about-stat-label" data-i18n="stat_2">лет — возраст учеников</span>
+                    <div class="stats">
+                        <div class="stat stat-coral">
+                            <span class="stat-number">20+</span>
+                            <span class="stat-label" data-i18n="stat_1">лет творческого опыта</span>
                         </div>
-                        <div class="about-stat">
-                            <span class="about-stat-num">3+</span>
-                            <span class="about-stat-label" data-i18n="stat_3">направления искусства</span>
+                        <div class="stat stat-purple">
+                            <span class="stat-number">5–15</span>
+                            <span class="stat-label" data-i18n="stat_2">лет — возраст учеников</span>
                         </div>
-                        <div class="about-stat">
-                            <span class="about-stat-num">DE/RU</span>
-                            <span class="about-stat-label" data-i18n="stat_4">языки консультаций</span>
+                        <div class="stat stat-gold">
+                            <span class="stat-number">3+</span>
+                            <span class="stat-label" data-i18n="stat_3">направления искусства</span>
+                        </div>
+                        <div class="stat stat-blue">
+                            <span class="stat-number">DE/RU</span>
+                            <span class="stat-label" data-i18n="stat_4">языки консультаций</span>
                         </div>
                     </div>
                 </div>
@@ -170,56 +127,57 @@
 
     <!-- Services -->
     <section class="services" id="services">
+        <div class="services-blob"></div>
         <div class="container">
-            <div class="section-header" data-animate>
+            <div class="section-header">
                 <span class="section-label" data-i18n="services_label">Услуги</span>
                 <h2 class="section-title" data-i18n="services_title">Чем я занимаюсь</h2>
                 <p class="section-subtitle" data-i18n="services_subtitle">Уроки рисования, терапевтические практики и консультации для детей и взрослых</p>
             </div>
             <div class="services-grid">
-                <div class="service-card" data-animate>
+                <div class="service-card">
                     <div class="service-tag" data-i18n="tag_kids">5–15 лет</div>
-                    <div class="service-icon">
+                    <div class="service-icon service-icon-coral">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
                     </div>
                     <h3 data-i18n="service_1_title">Рисование для детей</h3>
                     <p data-i18n="service_1_desc">Занятия для детей от 5 до 15 лет. Карандаш, акварель, акрил и развитие творческого мышления.</p>
                 </div>
-                <div class="service-card" data-animate>
+                <div class="service-card">
                     <div class="service-tag" data-i18n="tag_teens">от 10 лет</div>
-                    <div class="service-icon">
+                    <div class="service-icon service-icon-purple">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                     </div>
                     <h3 data-i18n="service_2_title">Масляная живопись</h3>
                     <p data-i18n="service_2_desc">Серьёзные занятия для подростков на холсте маслом. Техника, цвет, композиция.</p>
                 </div>
-                <div class="service-card" data-animate>
+                <div class="service-card">
                     <div class="service-tag" data-i18n="tag_all">для всех</div>
-                    <div class="service-icon">
+                    <div class="service-icon service-icon-rose">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                     </div>
                     <h3 data-i18n="service_3_title">Арт-терапия</h3>
                     <p data-i18n="service_3_desc">Снятие стресса и эмоциональная гармонизация через творчество. Для детей и взрослых.</p>
                 </div>
-                <div class="service-card" data-animate>
+                <div class="service-card">
                     <div class="service-tag" data-i18n="tag_online">онлайн</div>
-                    <div class="service-icon">
+                    <div class="service-icon service-icon-blue">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                     </div>
                     <h3 data-i18n="service_4_title">Нейрографика онлайн</h3>
                     <p data-i18n="service_4_desc">Практика, которая помогает проработать запросы и найти решения через рисунок. Доступно дистанционно.</p>
                 </div>
-                <div class="service-card" data-animate>
+                <div class="service-card">
                     <div class="service-tag" data-i18n="tag_consult">консультация</div>
-                    <div class="service-icon">
+                    <div class="service-icon service-icon-gold">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     </div>
                     <h3 data-i18n="service_5_title">Астрогенетика</h3>
                     <p data-i18n="service_5_desc">Раскрытие планетарного потенциала ребёнка по дате рождения. Понимание сильных сторон и талантов.</p>
                 </div>
-                <div class="service-card" data-animate>
+                <div class="service-card">
                     <div class="service-tag" data-i18n="tag_individual">индивидуально</div>
-                    <div class="service-icon">
+                    <div class="service-icon service-icon-teal">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v18"/><path d="M3 12h18"/><circle cx="12" cy="12" r="9"/></svg>
                     </div>
                     <h3 data-i18n="service_6_title">Световые карты</h3>
@@ -229,46 +187,11 @@
         </div>
     </section>
 
-    <!-- Video Section -->
-    <section class="video-section" id="video">
-        <div class="video-glow"></div>
-        <div class="container">
-            <div class="section-header" data-animate>
-                <span class="section-label" data-i18n="video_label">Демонстрация</span>
-                <h2 class="section-title" data-i18n="video_title">Посмотрите, как проходят онлайн-уроки</h2>
-                <p class="section-subtitle" data-i18n="video_subtitle">Погрузитесь в атмосферу творческого процесса и увидьте, как дети раскрывают свой потенциал</p>
-            </div>
-            <div class="video-player-wrapper" data-animate>
-                <div class="video-frame">
-                    <div class="video-preview" id="videoPreview">
-                        <div class="video-preview-bg">
-                            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                        </div>
-                        <button class="video-play-btn" id="videoPlayBtn" aria-label="Play video">
-                            <div class="video-play-icon">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                            </div>
-                            <div class="video-play-ring"></div>
-                            <div class="video-play-ring video-play-ring-2"></div>
-                        </button>
-                        <div class="video-duration">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            <span data-i18n="video_duration">2:45</span>
-                        </div>
-                    </div>
-                    <div class="video-info">
-                        <h3 data-i18n="video_info_title">Онлайн-урок рисования для детей</h3>
-                        <p data-i18n="video_info_desc">Занятие проходит в уютной и дружелюбной атмосфере. Каждый ребёнок получает индивидуальное внимание и поддержку.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Gallery -->
     <section class="gallery" id="gallery">
+        <div class="gallery-blob"></div>
         <div class="container">
-            <div class="section-header" data-animate>
+            <div class="section-header">
                 <span class="section-label" data-i18n="gallery_label">Портфолио</span>
                 <h2 class="section-title" data-i18n="gallery_title">Галерея</h2>
                 <p class="section-subtitle" data-i18n="gallery_subtitle">Фрагменты работ и ученических проектов в разных техниках</p>
@@ -279,139 +202,17 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="testimonials" id="testimonials">
-        <div class="testimonials-glow"></div>
-        <div class="container">
-            <div class="section-header" data-animate>
-                <span class="section-label" data-i18n="testimonials_label">Отзывы</span>
-                <h2 class="section-title" data-i18n="testimonials_title">Что говорят родители и ученики</h2>
-                <p class="section-subtitle" data-i18n="testimonials_subtitle">Истории семей, которые открыли для себя мир творчества</p>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card" data-animate>
-                    <div class="testimonial-stars">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <p class="testimonial-text" data-i18n="review_1_text">Моя дочь занимается с Милой уже полгода. За это время она научилась рисовать акварелью и стала намного увереннее в себе. Индивидуальный подход — это не просто слова, а реальная практика.</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">АК</div>
-                        <div class="testimonial-info">
-                            <span class="testimonial-name" data-i18n="review_1_name">Анна К.</span>
-                            <span class="testimonial-role" data-i18n="review_1_role">Мама ученицы, 8 лет</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card" data-animate>
-                    <div class="testimonial-stars">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <p class="testimonial-text" data-i18n="review_2_text">Арт-терапия помогла моему сыну справиться со стрессом после переезда. Мила создаёт невероятно тёплую атмосферу, где ребёнок чувствует себя в безопасности.</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">ОМ</div>
-                        <div class="testimonial-info">
-                            <span class="testimonial-name" data-i18n="review_2_name">Ольга М.</span>
-                            <span class="testimonial-role" data-i18n="review_2_role">Мама ученика, 10 лет</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card" data-animate>
-                    <div class="testimonial-stars">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    </div>
-                    <p class="testimonial-text" data-i18n="review_3_text">Нейрографика онлайн — это просто волшебство. После нескольких занятий я смогла разобраться в сложной жизненной ситуации и найти выход. Рекомендую всем!</p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">ИВ</div>
-                        <div class="testimonial-info">
-                            <span class="testimonial-name" data-i18n="review_3_name">Ирина В.</span>
-                            <span class="testimonial-role" data-i18n="review_3_role">Взрослая ученица</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq" id="faq">
-        <div class="container">
-            <div class="section-header" data-animate>
-                <span class="section-label" data-i18n="faq_label">Вопросы и ответы</span>
-                <h2 class="section-title" data-i18n="faq_title">Часто задаваемые вопросы</h2>
-                <p class="section-subtitle" data-i18n="faq_subtitle">Всё, что нужно знать перед первым занятием</p>
-            </div>
-            <div class="faq-list">
-                <div class="faq-item" data-animate>
-                    <button class="faq-question" type="button">
-                        <span data-i18n="faq_1_q">С какого возраста можно начинать занятия?</span>
-                        <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_1_a">Я работаю с детьми от 5 лет. Для самых маленьких разработана специальная программа, которая помогает развивать мелкую моторику, цветовосприятие и воображение через игровые техники.</p>
-                    </div>
-                </div>
-                <div class="faq-item" data-animate>
-                    <button class="faq-question" type="button">
-                        <span data-i18n="faq_2_q">Нужен ли опыт рисования?</span>
-                        <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_2_a">Нет, опыт не требуется. Я работаю с детьми любого уровня подготовки — от тех, кто впервые берёт кисть, до юных художников, готовящих портфолио.</p>
-                    </div>
-                </div>
-                <div class="faq-item" data-animate>
-                    <button class="faq-question" type="button">
-                        <span data-i18n="faq_3_q">Как проходят онлайн-занятия?</span>
-                        <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_3_a">Онлайн-уроки проходят через Zoom или Google Meet. Я показываю техники на камеру, даю обратную связь в реальном времени и помогаю на каждом этапе работы. Всё, что нужно — бумага, карандаши и стабильный интернет.</p>
-                    </div>
-                </div>
-                <div class="faq-item" data-animate>
-                    <button class="faq-question" type="button">
-                        <span data-i18n="faq_4_q">Что нужно принести на первое занятие?</span>
-                        <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_4_a">На первое занятие ничего не нужно — все материалы предоставляются. После консультации я подскажу, что приобрести для домашних занятий.</p>
-                    </div>
-                </div>
-                <div class="faq-item" data-animate>
-                    <button class="faq-question" type="button">
-                        <span data-i18n="faq_5_q">Сколько длится один урок?</span>
-                        <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="faq-answer">
-                        <p data-i18n="faq_5_a">Стандартный урок длится 60 минут. Для детей 5–7 лет рекомендую 45-минутные занятия, чтобы сохранить концентрацию и интерес.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Contact -->
     <section class="contact" id="contact">
+        <div class="contact-blob"></div>
         <div class="container">
-            <div class="section-header" data-animate>
+            <div class="section-header">
                 <span class="section-label" data-i18n="contact_label">Контакты</span>
                 <h2 class="section-title" data-i18n="contact_title">Свяжитесь со мной</h2>
                 <p class="section-subtitle" data-i18n="contact_subtitle">Запишитесь на пробное занятие, задайте вопрос или узнайте больше об услугах</p>
             </div>
             <div class="contact-grid">
-                <div class="contact-info" data-animate="left">
+                <div class="contact-info">
                     <h3 data-i18n="contact_info_title">Контакты</h3>
                     <p data-i18n="contact_info_text">Пишите или звоните — отвечу в удобное для вас время.</p>
                     <div class="contact-links">
@@ -419,45 +220,29 @@
                             <span class="contact-link-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                             </span>
-                            <div class="contact-link-body">
-                                <span class="contact-link-title">Telegram</span>
-                                <span class="contact-link-detail">@milakrause_neuro</span>
-                            </div>
+                            <span>Telegram</span>
+                            <span class="contact-link-detail">@milakrause_neuro</span>
                         </a>
                         <a href="https://wa.me/491722977828" target="_blank" class="contact-link contact-link-wa">
                             <span class="contact-link-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                             </span>
-                            <div class="contact-link-body">
-                                <span class="contact-link-title">WhatsApp</span>
-                                <span class="contact-link-detail">+49 172 297 78 28</span>
-                            </div>
+                            <span>WhatsApp</span>
+                            <span class="contact-link-detail">+49 172 297 78 28</span>
                         </a>
                         <a href="mailto:ludmilakrause900@gmail.com" class="contact-link contact-link-email" onclick="copyEmail(event)">
                             <span class="contact-link-icon">
                                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                             </span>
-                            <div class="contact-link-body">
-                                <span class="contact-link-title">Email</span>
-                                <span class="contact-link-detail" id="emailText">ludmilakrause900@gmail.com</span>
-                            </div>
+                            <span>Email</span>
+                            <span class="contact-link-detail" id="emailText">ludmilakrause900@gmail.com</span>
                             <span class="copy-tooltip" id="emailTooltip">Скопировано!</span>
                         </a>
                     </div>
                 </div>
-                <div class="contact-form-wrap" data-animate="right">
+                <div class="contact-form-wrap">
                     <h3 data-i18n="form_title">Записаться на занятие</h3>
                     <p data-i18n="form_text">Напишите мне в Telegram или WhatsApp, и мы договоримся о времени и формате.</p>
-                    <div class="contact-cta">
-                        <a href="https://t.me/milakrause_neuro" target="_blank" class="btn btn-primary btn-full">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-                            <span data-i18n="btn_telegram">Написать в Telegram</span>
-                        </a>
-                        <a href="https://wa.me/491722977828" target="_blank" class="btn btn-secondary btn-full">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                            <span data-i18n="btn_whatsapp">Написать в WhatsApp</span>
-                        </a>
-                    </div>
                     <div class="contact-note">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                         <span data-i18n="form_note">Занятия проходят в Ойскирхене или онлайн. Первое знакомство — возможно в формате консультации, чтобы выбрать подходящий формат.</span>
@@ -470,39 +255,14 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-top">
-                <div class="footer-brand">
-                    <a href="#" class="footer-logo">
-                        <div class="logo-mark">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-                        </div>
-                        <span class="logo-text" data-i18n="logo">Мила Краузе</span>
-                    </a>
-                    <p class="footer-desc" data-i18n="footer_desc">Художник, преподаватель и арт-терапевт с 20-летним опытом. Помогаю детям и взрослым раскрыть творческий потенциал.</p>
-                </div>
-                <div class="footer-nav">
-                    <h4 data-i18n="footer_nav_title">Навигация</h4>
-                    <a href="#about" data-i18n="nav_about">Обо мне</a>
-                    <a href="#services" data-i18n="nav_services">Услуги</a>
-                    <a href="#gallery" data-i18n="nav_gallery">Галерея</a>
-                    <a href="#contact" data-i18n="nav_contact">Контакты</a>
-                </div>
-                <div class="footer-nav">
-                    <h4 data-i18n="footer_contact_title">Контакты</h4>
-                    <span data-i18n="footer_location">Ойскирхен, Германия</span>
-                    <a href="https://t.me/milakrause_neuro" target="_blank">Telegram</a>
-                    <a href="https://wa.me/491722977828" target="_blank">WhatsApp</a>
-                    <a href="mailto:ludmilakrause900@gmail.com">Email</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
+            <div class="footer-inner">
                 <p data-i18n="footer_text">© 2026 Людмила Краусе. Все права защищены.</p>
                 <div class="footer-socials">
                     <a href="https://t.me/milakrause_neuro" target="_blank" class="footer-social" aria-label="Telegram">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
                     </a>
                     <a href="https://youtube.com/@mila-blogerscha-na-velike?si=p_dONf7LQTGXQcqg" target="_blank" class="footer-social" aria-label="YouTube">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                     </a>
                 </div>
             </div>
